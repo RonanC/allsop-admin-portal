@@ -1,0 +1,5 @@
+/node_modules
+# /dist this is needed for production
+/.tmp
+/.sass-cache
+/bower_components
