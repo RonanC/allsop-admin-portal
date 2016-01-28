@@ -1,0 +1,25 @@
+<div class="container">
+    <h2>Auctions</h2>
+
+    <!-- todos input -->
+    <form role="form" ng-submit="auctions.addEntry()">
+        <div class="row">
+            <div class="input-group">
+                <input type="text" ng-model="auctions.entry" placeholder="Enter a new auction..." class="form-control">
+                <span class="input-group-btn">
+                    <input type="submit" class="btn btn-primary" value="Add">
+                </span>
+            </div>
+        </div>
+    </form>
+
+    <br>
+    <div ui-sortable ng-model="auctions.entries">
+        <p class="input-group" ng-repeat="entry in auctions.entries track by $index" style="padding:5px 10px; cursor: move;">
+            <input type="text" ng-model="entry" class="form-control">
+            <span class="input-group-btn">
+                <button class="btn btn-danger" ng-click="auctions.removeEntry($index)" aria-label="Remove">X</button>
+            </span>
+        </p>
+    </div>
+</div>

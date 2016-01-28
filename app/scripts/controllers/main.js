@@ -7,7 +7,7 @@
  * # MainCtrl
  * Controller of the mytodoApp
  */
-angular.module('mytodoApp')
+angular.module('allsopAdminApp')
     .controller('MainCtrl', function ($scope, localStorageService) {
         // vm for viewmodel
         var vm = this;

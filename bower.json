@@ -1,5 +1,5 @@
 {
-  "name": "mytodo",
+  "name": "allsop-admin",
   "version": "0.0.0",
   "dependencies": {
     "angular": "^1.4.0",
@@ -18,7 +18,7 @@
     "angular-mocks": "^1.4.0"
   },
   "appPath": "app",
-  "moduleName": "mytodoApp",
+  "moduleName": "allsopAdminApp",
   "overrides": {
     "bootstrap": {
       "main": [

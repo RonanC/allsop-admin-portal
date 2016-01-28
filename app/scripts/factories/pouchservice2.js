@@ -1,9 +1,9 @@
 (function () {
-    'use strict'
+    'use strict';
 
     // pouchservice factory
     angular
-        .module('mytodoApp')
+        .module('allsopAdminApp')
         .factory('pouchservice', pouchservice);
 
     pouchservice.$inject = ['$http', 'logger'];

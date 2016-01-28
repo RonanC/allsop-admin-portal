@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 angular
-    .module('mytodoApp', [
+    .module('allsopAdminApp', [
         'ngAnimate',
         'ngCookies',
         'ngResource',
@@ -34,6 +34,16 @@ angular
                 templateUrl: 'views/about.html',
                 controller: 'AboutCtrl',
                 controllerAs: 'about'
+            })
+            .when('/auctions', {
+              templateUrl: 'views/auctions.html',
+              controller: 'AuctionsCtrl',
+              controllerAs: 'auctions'
+            })
+            .when('/notify', {
+              templateUrl: 'views/notify.html',
+              controller: 'NotifyCtrl',
+              controllerAs: 'notify'
             })
             .otherwise({
                 redirectTo: '/'

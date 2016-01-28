@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name mytodoApp.controller:AboutCtrl
+ * @name allsopAdminApp.controller:NotifyCtrl
  * @description
- * # AboutCtrl
- * Controller of the mytodoApp
+ * # NotifyCtrl
+ * Controller of the allsopAdminApp
  */
 angular.module('allsopAdminApp')
-  .controller('AboutCtrl', function () {
+  .controller('NotifyCtrl', function () {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
