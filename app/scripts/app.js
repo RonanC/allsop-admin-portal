@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc overview
- * @name mytodoApp
+ * @name allsop
  * @description
- * # mytodoApp
+ * # allsop
  *
  * Main module of the application.
  */
 angular
-    .module('allsopAdminApp', [
+    .module('allsop', [
         'ngAnimate',
         'ngCookies',
         'ngResource',

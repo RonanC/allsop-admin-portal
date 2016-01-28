@@ -3,7 +3,7 @@
 describe('Controller: AuctionsCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('allsopAdminApp'));
+  beforeEach(module('allsop'));
 
   var AuctionsCtrl,
     scope;

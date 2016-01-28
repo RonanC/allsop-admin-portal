@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name allsopAdminApp.controller:NotifyCtrl
+ * @name allsop.controller:NotifyCtrl
  * @description
  * # NotifyCtrl
- * Controller of the allsopAdminApp
+ * Controller of the allsop
  */
-angular.module('allsopAdminApp')
+angular.module('allsop')
   .controller('NotifyCtrl', function () {
     this.awesomeThings = [
       'HTML5 Boilerplate',

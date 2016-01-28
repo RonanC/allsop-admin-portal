@@ -23,7 +23,7 @@
     <script src="scripts/pouchdb-5.2.0.min.js"></script>
 </head>
 
-<body ng-app="allsopAdminApp">
+<body ng-app="allsop">
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -47,11 +47,8 @@
                 <div class="collapse navbar-collapse" id="js-navbar-collapse">
 
                     <ul class="nav navbar-nav">
-                        <!--<li class="active"><a href="#/">Home</a></li>-->
                         <li><a ng-href="#/auctions">Auctions</a></li>
                         <li><a ng-href="#/notify">Notify</a></li>
-                        <!--<li><a ng-href="#/about">About</a></li>-->
-                        <!--<li><a ng-href="#/">Contact</a></li>-->
                     </ul>
                 </div>
             </div>
@@ -110,8 +107,8 @@
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/about.js"></script>
     <script src="scripts/controllers/auctions.js"></script>
-    <script src="scripts/services/pouchservice.js"></script>
     <script src="scripts/controllers/notify.js"></script>
+    <script src="scripts/services/auctionservice.js"></script>
     <!-- endbuild -->
 </body>
 

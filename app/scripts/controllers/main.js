@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name mytodoApp.controller:MainCtrl
+ * @name allsop.controller:MainCtrl
  * @description
  * # MainCtrl
- * Controller of the mytodoApp
+ * Controller of the allsop
  */
-angular.module('allsopAdminApp')
+angular.module('allsop')
     .controller('MainCtrl', function ($scope, localStorageService) {
         // vm for viewmodel
         var vm = this;

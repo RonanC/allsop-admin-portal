@@ -3,7 +3,7 @@
 
     // pouchservice factory
     angular
-        .module('allsopAdminApp')
+        .module('allsop')
         .factory('pouchservice', pouchservice);
 
     pouchservice.$inject = ['$http', 'logger'];

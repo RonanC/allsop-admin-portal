@@ -1,14 +1,17 @@
-'use strict';
+(function () {
+    'use strict';
 
-/**
- * @ngdoc function
- * @name allsopAdminApp.controller:AuctionsCtrl
- * @description
- * # AuctionsCtrl
- * Controller of the allsopAdminApp
- */
-angular.module('allsopAdminApp')
-    .controller('AuctionsCtrl', function ($scope, pouchService, localStorageService) {
+    /**
+     * @ngdoc function
+     * @name allsop.controller:AuctionsCtrl
+     * @description
+     * # AuctionsCtrl
+     * Controller of the allsop
+     */
+    angular.module('allsop')
+        .controller('AuctionsCtrl', AuctionsCtrl);
+
+    function AuctionsCtrl($scope, auctionService, localStorageService) {
         // vm for viewmodel
         var vm = this;
         
@@ -43,4 +46,5 @@ angular.module('allsopAdminApp')
             
             // localStorageService.set('entries', vm.entries);
         };
-    });
+    }
+})();
