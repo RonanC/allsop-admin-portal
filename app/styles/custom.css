@@ -31,3 +31,8 @@ body {
 .container .text-muted {
   margin: 20px 0;
 }   
+
+/*custom*/
+#magenta {
+    color: #c1004f;
+}

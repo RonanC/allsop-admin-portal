@@ -17,12 +17,13 @@ angular
         'ngSanitize',
         'ngTouch',
         'ui.sortable',
-        'LocalStorageModule'
+        'LocalStorageModule',
+        '720kb.datepicker'
     ])
-    .config(['localStorageServiceProvider', function (localStorageServiceProvider) {
-        // use custom local storage name
-        localStorageServiceProvider.setPrefix('ls');
-    }])
+    // .config(['localStorageServiceProvider', function (localStorageServiceProvider) {
+    //     // use custom local storage name
+    //     localStorageServiceProvider.setPrefix('ls');
+    // }])
     .config(function ($routeProvider) {
         $routeProvider
             .when('/', {
@@ -36,14 +37,14 @@ angular
                 controllerAs: 'about'
             })
             .when('/auctions', {
-              templateUrl: 'views/auctions.html',
-              controller: 'AuctionsCtrl',
-              controllerAs: 'auctions'
+                templateUrl: 'views/auctions.html',
+                controller: 'AuctionsCtrl',
+                controllerAs: 'auctions'
             })
             .when('/notify', {
-              templateUrl: 'views/notify.html',
-              controller: 'NotifyCtrl',
-              controllerAs: 'notify'
+                templateUrl: 'views/notify.html',
+                controller: 'NotifyCtrl',
+                controllerAs: 'notify'
             })
             .otherwise({
                 redirectTo: '/'

@@ -1,25 +1,71 @@
+<h1 class="jumbotron" id="magenta">Auctions</h1>
+
+<!--<script>
+       window.newEntry = { time: '22' };
+   </script>-->
+
 <div class="container">
-    <h2>Auctions</h2>
 
     <!-- todos input -->
-    <form role="form" ng-submit="auctions.addEntry()">
+    <form role="form" ng-submit="auctions.addEntry(newEntry)" name="newEntryForm">
         <div class="row">
             <div class="input-group">
-                <input type="text" ng-model="auctions.entry" placeholder="Enter a new auction..." class="form-control">
-                <span class="input-group-btn">
-                    <input type="submit" class="btn btn-primary" value="Add">
+                
+                <div class="input-group" style="width:100%">
+                    <div class="input-group-addon" style="width:5em">Date</div>
+                    <datepicker selector="form-control" date-format="EEE MMM dd yyyy">
+                        <div class="input-group" style="width:101%">
+                            <input id="date" class="form-control" placeholder="Choose a date" ng-model="newEntry.date" required>
+                            <span class="input-group-btn" style="cursor: pointer ">
+                            <i class="fa fa-lg fa-calendar "></i>
+                        </span>
+                        </div>
+                    </datepicker>
+                </div>
+
+                <div class="input-group" style="width:100%">
+                    <div class="input-group-addon" style="width:5em">Time</div>
+                    <input id="time" type="text" ng-model="newEntry.time" placeholder="Time" class="form-control" ng-init="newEntry.time = '10:30'"
+                    minlength="5" maxlength="5" required>
+                </div>
+
+                <div class="input-group" style="width:100%">
+                    <div class="input-group-addon" style="width:5em">Where</div>
+                    <input id="where" type="text" ng-model="newEntry.where" placeholder="Where" class="form-control" ng-init="newEntry.where = 'Dublin'"
+                    minlength="3" minlength="3" required>
+                </div>
+
+                <div class="input-group" style="width:100%">
+                    <div class="input-group-addon" style="width:5em">Info</div>
+                    <input id="info" type="text" ng-model="newEntry.info" placeholder="Information" class="form-control" ng-init="newEntry.info = 'House for sale'"
+                    minlength="3" required>
+                </div>
+
+                <div class="input-group" style="width:100%">
+                    <div class="input-group-addon" style="width:5em">URL</div>
+                    <input tid="url" ype="text" ng-model="newEntry.url" placeholder="URL" class="form-control" ng-init="newEntry.url = 'www.allsop.ie'"
+                    minlength="3" required>
+                </div>
+
+                <!--<span class="input-group-btn">-->
+                <span class="input-group-addon">
+                    <input type="submit" class="btn btn-primary" value="Add" ng-disabled="!newEntryForm.$valid">
                 </span>
             </div>
         </div>
     </form>
 
     <br>
-    <div ui-sortable ng-model="auctions.entries">
-        <p class="input-group" ng-repeat="entry in auctions.entries track by $index" style="padding:5px 10px; cursor: move;">
-            <input type="text" ng-model="entry" class="form-control">
-            <span class="input-group-btn">
-                <button class="btn btn-danger" ng-click="auctions.removeEntry($index)" aria-label="Remove">X</button>
+    <!--<div ui-sortable ng-model="auctions.entries ">-->
+    <p class="input-group" ng-repeat="entry in auctions.auctionEntries" style="padding:5px 10px; cursor: move;">
+        <input type="text" ng-model="entry.when" class="form-control">
+        <input type="text" ng-model="entry.where" class="form-control">
+        <input type="text" ng-model="entry.info" class="form-control">
+        <input type="text" ng-model="entry.url" class="form-control">
+        <span class="input-group-btn">
+                <button class="btn btn-danger" ng-click="auctions.removeEntry(entry, $index)" aria-label="Remove">X</button>
             </span>
-        </p>
-    </div>
+
+    </p>
+    <!--</div>-->
 </div>
