@@ -16,24 +16,23 @@
     // .$inject = [];
 
     function AuctionsCtrl($scope, $q, $timeout, $rootScope) {
-
         // vm for viewmodel
         var vm = this;
 
-        vm.auctionTitles = [];
+        // vm.auctionTitles = [];
         vm.auctionEntries = [];
 
         // pouch
-        var db = new PouchDB('todos');
-        // var remote = new PouchDB('http://localhost:5984/todos');
-        var remote = new PouchDB('https://desimeentsteryingespelte:428b3ecba6fcddf3536a9776726431b6a3a89d40@ianmcloughlin.cloudant.com/auctions');
+        var db;
+        var remote;
 
-        vm.regex = '\d{2}:\d{2}';
-
-        pouchInit();
+        vm.init = init;
+        vm.removeEntry = removeEntry;
+        vm.addEntry = addEntry;
+        init();
         
         // add entry
-        vm.addEntry = function (entry) {
+        function addEntry(entry) {
             entry.when = entry.date.substring(0, 15) + ' ' + entry.time;
             delete entry.date;
             delete entry.time;
@@ -44,6 +43,21 @@
 
             console.log('new entry: ' + JSON.stringify(entry));
         };
+
+
+
+        function init() {
+            // vm.auctionTitles = [];
+            vm.auctionEntries = [];
+
+            // not using a local db as not needed in browser (also the replication caused the changes method to fire way too many times)
+            // db = new PouchDB('auctions');
+            // db = new PouchDB('http://localhost:5984/auctions');
+            db = new PouchDB('https://desimeentsteryingespelte:428b3ecba6fcddf3536a9776726431b6a3a89d40@ianmcloughlin.cloudant.com/auctions');
+            
+            vm.regex = '\d{2}:\d{2}';
+            pouchInit();
+        }
 
         function formatISO(isostr) {
 
@@ -59,7 +73,7 @@
         }
         
         // remove entry
-        vm.removeEntry = function (entry, index) {
+        function removeEntry(entry, index) {
             vm.auctionEntries.splice(index, 1);
             db.remove(entry);
 
@@ -71,36 +85,63 @@
         // need to have pouch here for real time binding
         function pouchInit() {
             // var firstSync = false;
-
+            
 
             var opts = { live: true };
-            db.replicate.to(remote, opts); // third arg for function error
-            db.replicate.from(remote, opts);
+            // db.sync(db, remote);
+            // db.replicate.to(remote, opts); // third arg for function error
+            // db.replicate.from(remote, opts);
 
             // get data
             showEntries();
+            vm.showEntries = showEntries;
        
             // updates view when db changes
             db.changes({
                 since: 'now',
                 live: true
-            }).on('change', showEntries);
+            }).on('change', function () {
+                vm.showEntries();
+            });
+
+            // vm.refreshList = refreshList;
+
+            // function refreshList() {
+            //     $q.when(showEntries())
+            //         .then(function () {
+            //             // vm.auctionTitles = [];
+            //             vm.auctionEntries = [];
+            //             db.allDocs({ include_docs: true, descending: true }, function (err, doc) {
+            //                 console.log('DB Change, updating list...');
+            //                 // console.log('doc: ' + JSON.stringify(doc.rows));
+            //                 addListEntry(doc.rows);
+            //             });
+
+            //             $timeout(function () { $rootScope.$apply(); });
+            //         });
+            // }
+            
+            vm.showEntries = showEntries;
             
             // show entries
             function showEntries() {
-                vm.auctionTitles = [];
+                // vm.auctionTitles = [];
                 vm.auctionEntries = [];
                 db.allDocs({ include_docs: true, descending: true }, function (err, doc) {
                     console.log('DB Change, updating list...');
                     // console.log('doc: ' + JSON.stringify(doc.rows));
                     addListEntry(doc.rows);
                 });
+                
+                $timeout(function () { $rootScope.$apply(); });
+                
+                return;
             }
 
             function addListEntry(entries) {
                 entries.forEach(function (entry) {
                     if (entry.id.charAt(0) !== '_') {
-                        vm.auctionTitles.push(entry.doc.where);
+                        // vm.auctionTitles.push(entry.doc.where);
 
                         entry.doc.when = formatDate(entry.doc._id);
                         vm.auctionEntries.push(entry.doc);
@@ -131,6 +172,8 @@
 
                 return parsedDate;
             }
+
+            vm.showEntries();
 
         }
     }

@@ -20,21 +20,12 @@ angular
         'LocalStorageModule',
         '720kb.datepicker'
     ])
-    // .config(['localStorageServiceProvider', function (localStorageServiceProvider) {
-    //     // use custom local storage name
-    //     localStorageServiceProvider.setPrefix('ls');
-    // }])
     .config(function ($routeProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: 'views/main.html',
                 controller: 'MainCtrl',
                 controllerAs: 'main'
-            })
-            .when('/about', {
-                templateUrl: 'views/about.html',
-                controller: 'AboutCtrl',
-                controllerAs: 'about'
             })
             .when('/auctions', {
                 templateUrl: 'views/auctions.html',
