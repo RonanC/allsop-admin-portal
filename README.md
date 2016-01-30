@@ -13,3 +13,8 @@ Run `grunt` for building and `grunt serve` for preview.
 ## Testing
 
 Running `grunt test` will run the unit tests with karma.
+
+## References
+- http://pouchdb.com/guides/setup-couchdb.html
+- http://pouchdb.com/getting-started.html
+- http://yeoman.io/codelab/index.html
