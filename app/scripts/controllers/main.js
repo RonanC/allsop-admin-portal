@@ -8,6 +8,6 @@
  * Controller of the allsop
  */
 angular.module('allsop')
-    .controller('MainCtrl', function ($scope) {
+    .controller('MainCtrl', function ($scope, auctionService) {
 
     });

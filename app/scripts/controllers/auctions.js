@@ -16,28 +16,29 @@
         // vm for viewmodel
         var vm = this;
 
+        // public functions
         vm.auctionEntries = [];
-        vm.init = init;
+        // vm.init = init;
         vm.refreshList = refreshList;
         vm.removeEntry = removeEntry;
         vm.addEntry = addEntry;
-        // vm.editEntry = editEntry;
-        
-        init();
+        vm.editEntry = editEntry;
+        vm.regex = '\\d{2}:\\d{2}';
 
+        // call functions
+        auctionService.getEntries()
+        vm.refreshList();
+        
+        // this gets called every 5 seconds
+        // this is not efficient, it is only needed the first time you visit the page
+        // var checkList;
+        // checkList = $interval(function(){
+        //     vm.refreshList();
+        // }, 5000);
+        
         function refreshList() {
             // auctionService.getEntries();
             vm.auctionEntries = auctionService.auctionEntries;
-        }
-
-        function init() {
-            auctionService.init();
-            
-            // regular expression for time
-            vm.regex = '\\d{2}:\\d{2}';
-            // vm.regex = '\d{2}:\d{2}';
-            auctionService.getEntries()
-            vm.refreshList();
         }
 
         function addEntry(entry) {
@@ -50,6 +51,19 @@
                 vm.refreshList();
             });
         };
+
+        function editEntry(entry) {
+            // var def = $q.defer();
+            // auctionService.editEntry(entry, def);
+            
+            // // waits for entry to be added to the remote db
+            // def.promise.then(function () {
+            //     // console.log("ready");
+            //     vm.refreshList();
+            // });
+            
+            console.log(entry);
+        }
 
         function removeEntry(entry) {
             var def = $q.defer();

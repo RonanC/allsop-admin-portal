@@ -22,6 +22,8 @@ angular.module('allsop')
         vm.removeEntry = removeEntry;
         vm.editEntry = editEntry;
 
+        vm.init();
+
         function init() {
             // console.log("init");
 
@@ -118,8 +120,8 @@ angular.module('allsop')
             
             
             // vm.auctionEntries.push(entry);
-            console.log("vm.auctionEntries: " + JSON.stringify(vm.auctionEntries));
-            console.log('new entry: ' + JSON.stringify(entry));
+            // console.log("vm.auctionEntries: " + JSON.stringify(vm.auctionEntries));
+            // console.log('new entry: ' + JSON.stringify(entry));
 
             return def;
         }
@@ -151,8 +153,21 @@ angular.module('allsop')
             return def;
         }
 
-        function editEntry(entry) {
+        function editEntry(entry, def) {
             console.log("edit");
+            db.put(entry).then(function (response) {
+                // waits for the onchange event to update the local list from the remote db
+                $timeout(function () {
+                    def.resolve();
+                    // console.log('update with timeout fired')
+                }, 100);
+
+            }).catch(function (err) {
+                console.log(err);
+            });
+
+            return def;
+
         }
 
         return vm;

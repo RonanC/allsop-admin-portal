@@ -10,7 +10,7 @@
     <form role="form" ng-submit="auctions.addEntry(newEntry)" name="newEntryForm">
         <div class="row">
             <div class="input-group">
-                
+
                 <div class="input-group" style="width:100%">
                     <div class="input-group-addon" style="width:5em">Date</div>
                     <datepicker selector="form-control" date-format="EEE MMM dd yyyy">
@@ -43,7 +43,7 @@
 
                 <div class="input-group" style="width:100%">
                     <div class="input-group-addon" style="width:5em">URL</div>
-                    <input tid="url" ype="text" ng-model="newEntry.url" placeholder="URL" class="form-control" ng-init="newEntry.url = 'www.allsop.ie'"
+                    <input id="url" ype="text" ng-model="newEntry.url" placeholder="URL" class="form-control" ng-init="newEntry.url = 'www.allsop.ie'"
                     minlength="3" required>
                 </div>
 
@@ -57,15 +57,15 @@
 
     <br>
     <!--<div ui-sortable ng-model="auctions.entries ">-->
-    <p class="input-group" ng-repeat="entry in auctions.auctionEntries" style="padding:5px 10px; cursor: move;">
-        <input type="text" ng-model="entry.when" class="form-control">
-        <input type="text" ng-model="entry.where" class="form-control">
-        <input type="text" ng-model="entry.info" class="form-control">
-        <input type="text" ng-model="entry.url" class="form-control">
+    <p id="auc-list" class="input-group" ng-repeat="entry in auctions.auctionEntries track by entry._id" style="padding:5px 10px"
+    ng-submit="auctions.editEntry(entry)">
+        <input type="text" ng-model="entry.when" class="form-control" readonly>
+        <input type="text" ng-model="entry.where" class="form-control" readonly>
+        <input type="text" ng-model="entry.info" class="form-control" readonly>
+        <input type="text" ng-model="entry.url" class="form-control" readonly>
         <span class="input-group-btn">
                 <button class="btn btn-danger" ng-click="auctions.removeEntry(entry, $index)" aria-label="Remove">X</button>
             </span>
-
     </p>
     <!--</div>-->
 </div>

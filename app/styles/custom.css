@@ -36,3 +36,7 @@ body {
 #magenta {
     color: #c1004f;
 }
+
+#auc-list input {
+    background-color: #fff;
+}
