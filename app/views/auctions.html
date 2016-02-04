@@ -57,8 +57,7 @@
 
     <br>
     <!--<div ui-sortable ng-model="auctions.entries ">-->
-    <p id="auc-list" class="input-group" ng-repeat="entry in auctions.auctionEntries track by entry._id" style="padding:5px 10px"
-    ng-submit="auctions.editEntry(entry)">
+    <p id="auc-list" class="input-group" ng-repeat="entry in auctions.auctionEntries track by entry._id" style="padding:5px 10px">
         <input type="text" ng-model="entry.when" class="form-control" readonly>
         <input type="text" ng-model="entry.where" class="form-control" readonly>
         <input type="text" ng-model="entry.info" class="form-control" readonly>

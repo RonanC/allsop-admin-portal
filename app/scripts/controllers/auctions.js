@@ -22,7 +22,6 @@
         vm.refreshList = refreshList;
         vm.removeEntry = removeEntry;
         vm.addEntry = addEntry;
-        vm.editEntry = editEntry;
         vm.regex = '\\d{2}:\\d{2}';
 
         // call functions
@@ -51,19 +50,6 @@
                 vm.refreshList();
             });
         };
-
-        function editEntry(entry) {
-            // var def = $q.defer();
-            // auctionService.editEntry(entry, def);
-            
-            // // waits for entry to be added to the remote db
-            // def.promise.then(function () {
-            //     // console.log("ready");
-            //     vm.refreshList();
-            // });
-            
-            console.log(entry);
-        }
 
         function removeEntry(entry) {
             var def = $q.defer();
