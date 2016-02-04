@@ -32,6 +32,8 @@
 
         function init() {
             auctionService.init();
+            
+            // regular expression for time
             vm.regex = '\\d{2}:\\d{2}';
             // vm.regex = '\d{2}:\d{2}';
             auctionService.getEntries()
