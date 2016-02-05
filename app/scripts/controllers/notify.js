@@ -15,9 +15,9 @@ angular.module('allsop')
         vm.notifySuccess = false;
         vm.sendPush = sendPush;
 
+        vm.messages = notifyService.messages;
+
         function sendPush(message) {
-            console.log(message);
-            
             // Define relevant info
             var privateKey = notifyService.privateKey;
             var tokens = notifyService.tokens;
@@ -47,6 +47,16 @@ angular.module('allsop')
             $http(req).success(function (resp) {
                 // Handle success
                 console.log("Ionic Push: Push success!");
+                console.log("req: " + JSON.stringify(req));
+
+                resp.message = req.data.notification.alert;
+                resp.tokens = req.data.tokens;
+                resp.timeStamp = new Date().toISOString().slice(0, 16);
+
+                notifyService.saveMessageId(resp);
+
+                console.log("resp: " + JSON.stringify(resp));
+
                 vm.notifySuccess = true;
 
                 $timeout(function () {
@@ -59,9 +69,8 @@ angular.module('allsop')
         }
 
         function checkStatus() {
-            // Define relevant info
-            var privateKey = 'your-private-api-key';
-            var appId = 'your-app-id';
+            var privateKey = notifyService.privateKey;
+            var appId = notifyService.appId;
             var statusId = 'your-message-status-code'
 
             // Encode your key

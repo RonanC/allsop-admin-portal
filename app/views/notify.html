@@ -14,4 +14,24 @@
         <button type="submit" class="btn btn-primary" ng-disabled="!pushForm.$valid">Submit</button>
     </form>
 
+    <br>
+    <br>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Time Sent</th>
+            <th>Message</th>
+            <th>Result</th>
+            <th>Message ID</th>
+        </tr>
+
+        <tr ng-repeat="message in notify.messages">
+            <td>{{ message.timeStamp }}</td>
+            <td>{{ message.message }}</td>
+            <td>{{ message.result }}</td>
+            <td>{{ message.message_id }}</td>
+        </tr>
+    </table>
+
+
 </div>

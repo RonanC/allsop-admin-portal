@@ -16,8 +16,10 @@ angular.module('allsop')
         // var remote = new PouchDB('http://localhost:5984/logindetails');
         var db = local;
 
-        vm.user = { username: 'allsop', password: 'poslla' };
-        // vm.user = {};
+        // defaults
+        // vm.user = { username: 'allsop', password: 'poslla' };
+        
+        vm.user = {};
         vm.init = init;
         vm.getUser = getUser;
         vm.saveUser = saveUser;

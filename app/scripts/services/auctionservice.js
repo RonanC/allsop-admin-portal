@@ -12,7 +12,9 @@ angular.module('allsop')
         // AngularJS will instantiate a singleton by calling "new" on this function
         var vm = this;
         var local = new PouchDB('auctions');
-        var remote = new PouchDB('https://desimeentsteryingespelte:428b3ecba6fcddf3536a9776726431b6a3a89d40@ianmcloughlin.cloudant.com/auctions');
+        // var remote = new PouchDB('https://desimeentsteryingespelte:428b3ecba6fcddf3536a9776726431b6a3a89d40@ianmcloughlin.cloudant.com/auctions');
+        var remote = new PouchDB('https://ronanconnolly.cloudant.com/allsop-auctions');
+
         var db = local;
 
         vm.auctionEntries = [];

@@ -15,7 +15,7 @@ angular.module('allsop')
         vm.user = loginService.user;
         //  $rootScope.isLoggedOut = true;
         $rootScope.isLoggedOut = !auth.isLoggedIn();
-        vm.errorMsg = "error message";
+        // vm.errorMsg = "error message";
 
 
         if (auth.isLoggedIn()) {
@@ -37,15 +37,15 @@ angular.module('allsop')
                     vm.loginError = false;
                 }, 2000);
                 
-                error(user);
+                // error(user);
             }
 
             // console.log("vm.user: " + JSON.stringify(vm.user));
             // console.log("user: " + JSON.stringify(user));
         } // login
         
-        function error(user) {
-            vm.errorMsg = "vm.user: " + JSON.stringify(vm.user) + "\n\nuser: " + JSON.stringify(user);
+        // function error(user) {
+        //     vm.errorMsg = "vm.user: " + JSON.stringify(vm.user) + "\n\nuser: " + JSON.stringify(user);
 
-        }
+        // }
     });

@@ -22,6 +22,9 @@ angular.module('allsop')
         vm.tokens = ['0d3b6bb237825183573af83a8d05380775625b154e93a3c4e2082058d5e06961'];
         vm.init = init;
         vm.getDetails = getDetails;
+        
+        vm.saveMessageId = saveMessageId;
+        vm.messages = [];
 
         vm.init();
 
@@ -51,11 +54,15 @@ angular.module('allsop')
                 console.log('DB Change');
                 console.log('doc: ' + JSON.stringify(doc));
 
-                vm.tokens = ['myToken'];
+                vm.tokens = ['0d3b6bb237825183573af83a8d05380775625b154e93a3c4e2082058d5e06961'];
                 // insert call here
             });
 
             $timeout(function () { $rootScope.$apply(); });
+        }
+        
+        function saveMessageId(resp){
+            vm.messages.push(resp);
         }
 
         return vm;
