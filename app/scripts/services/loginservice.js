@@ -10,15 +10,16 @@
 angular.module('allsop')
     .service('loginService', function ($timeout, $rootScope) {
         var vm = this;
-        var local = new PouchDB('loginDetails');
-        // var remote = new PouchDB('https://desimeentsteryingespelte:428b3ecba6fcddf3536a9776726431b6a3a89d40@ianmcloughlin.cloudant.com/loginDetails');
+        var local = new PouchDB('logindetails');
+        // var remote = new PouchDB('https://desimeentsteryingespelte:428b3ecba6fcddf3536a9776726431b6a3a89d40@ianmcloughlin.cloudant.com/logindetails');
+        var remote = new PouchDB('http://localhost:5984/logindetails');
         var db = local;
 
-        vm.user = { username: 'root', password: 'toor' };
+        // vm.user = { username: 'allsop', password: 'poslla' };
+        vm.user = {};
         vm.init = init;
-        vm.getDetails = getDetails;
-        vm.addDetails = addDetails;
-        vm.removeDetails = removeDetails;
+        vm.getUser = getUser;
+        vm.saveUser = saveUser;
 
         vm.init();
 
@@ -30,95 +31,39 @@ angular.module('allsop')
                 vm.getDetails();
             });
 
-            // local.sync(remote, {
-            //     live: true
-            // }).on('change', function (change) {
-            //     // yo, something changed!
-            // }).on('error', function (err) {
-            //     // yo, we got an error! (maybe the user went offline?)
-            // });
+            local.sync(remote, {
+                live: true
+            }).on('change', function (change) {
+                // yo, something changed!
+            }).on('error', function (err) {
+                // yo, we got an error! (maybe the user went offline?)
+            });
+
+            vm.getUser();
         }
 
-        function getDetails() {
-            vm.users = [];
+        function getUser() {
             db.allDocs({ include_docs: true, descending: true }, function (err, doc) {
-                console.log('DB Change, updating list...');
-                console.log('doc: ' + JSON.stringify(doc.rows));
-                // addListEntry(doc.rows);
-                // vm.user = doc.rows;
-                
+                console.log('DB Change');
+                // console.log('doc: ' + JSON.stringify(doc.total_rows));
+
+                if (doc.total_rows < 1) {
+                    vm.user.username = "root"
+                    vm.user.password = "toor"
+                    vm.saveUser();
+                } else {
+                    vm.user.username = doc.rows[0].doc.username;
+                    vm.user.password = doc.rows[0].doc.password;
+                }
+
             });
 
             $timeout(function () { $rootScope.$apply(); });
-
-            // return vm.users;
         }
 
-        // private
-        // function addListEntry(entries) {
-        //     entries.forEach(function (entry) {
-        //         if (entry.id.charAt(0) !== '_') {
-        //             // vm.auctionTitles.push(entry.doc.where);
-
-        //             entry.doc.when = formatDate(entry.doc._id);
-        //             vm.users.push(entry.doc);
-        //         }
-        //     });
-
-            // console.log(vm.auctionTitles);
-            // console.log(vm.users);
-                
-                
-            // This makes sure that the template is refreshed once the list is updated.
-            // Sometimes PouchDB changes fall through the cracks otherwise.
-            // IMPORTANT
-        //     $timeout(function () { $rootScope.$apply(); });
-        // }
-        
-
-        function addDetails(entry, def) {
-            // console.log("add");
-
-            entry.when = entry.date.substring(0, 15) + ' ' + entry.time;
-            delete entry.date;
-            delete entry.time;
-
-            // entry._id = formatISO(entry.when);
-
-            // db.put(entry);
-
-
-            db.put(entry).then(function (response) {
-                // waits for the onchange event to update the local list from the remote db
-                $timeout(function () {
-                    def.resolve();
-                    // console.log('update with timeout fired')
-                }, 100);
-
-            }).catch(function (err) {
-                console.log(err);
-            });
-            
-            
-            // vm.users.push(entry);
-            // console.log("vm.users: " + JSON.stringify(vm.users));
-            // console.log('new entry: ' + JSON.stringify(entry));
-
-            return def;
-        }
-
-        function removeDetails(entry, def) {
-            // console.log("remove");
-            db.remove(entry).then(function () {
-                // waits for the onchange event to update the local list from the remote db
-                $timeout(function () {
-                    def.resolve();
-                    // console.log('update with timeout fired')
-                }, 100);
-            });
-            // vm.users.splice(index, 1);
-            
-            return def;
+        function saveUser() {
+            console.log("saving user: " + JSON.stringify(vm.user));
+            db.put(vm.user);
         }
 
         return vm;
