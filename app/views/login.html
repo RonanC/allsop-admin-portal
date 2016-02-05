@@ -1,0 +1,16 @@
+<h1 class="jumbotron" id="magenta">Login</h1>
+
+<div class="container">
+    <form name="loginForm" ng-submit="login.loginAttempt(user)">
+        <div class="form-group">
+            <label for="messageInput">Username</label>
+            <input type="text" class="form-control" id="username" ng-model="user.username" ng-minlength="4" ng-maxlength="15" required>
+
+            <label for="messageInput">Password</label>
+            <input type="password" class="form-control" id="password" ng-model="user.password" ng-minlength="4" ng-maxlength="15" required>
+
+        </div>
+        <button type="submit" class="btn btn-primary" ng-disabled="!loginForm.$valid">Submit</button>
+    </form>
+
+</div>
