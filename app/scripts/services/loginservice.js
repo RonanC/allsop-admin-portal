@@ -16,8 +16,8 @@ angular.module('allsop')
         // var remote = new PouchDB('http://localhost:5984/logindetails');
         var db = local;
 
-        // vm.user = { username: 'allsop', password: 'poslla' };
-        vm.user = {};
+        vm.user = { username: 'allsop', password: 'poslla' };
+        // vm.user = {};
         vm.init = init;
         vm.getUser = getUser;
         vm.saveUser = saveUser;
@@ -49,8 +49,8 @@ angular.module('allsop')
                 // console.log('doc: ' + JSON.stringify(doc.total_rows));
 
                 if (doc.total_rows < 1) {
-                    vm.user.username = "root"
-                    vm.user.password = "toor"
+                    vm.user.username = "allsop"
+                    vm.user.password = "poslla"
                     vm.saveUser();
                 } else {
                     vm.user.username = doc.rows[0].doc.username;
