@@ -8,23 +8,19 @@
  * Controller of the allsop
  */
 angular.module('allsop')
-    .controller('NotifyCtrl', function ($http) {
+    .controller('NotifyCtrl', function ($http, notifyService) {
         // http://docs.ionic.io/docs/push-api-examples
         var vm = this;
         
         vm.sendPush = sendPush;
         
         function sendPush(message) {
-             console.log(message);
-        }
-
-        function sendPush2(message) {
             console.log(message);
             
             // Define relevant info
-            var privateKey = 'your-private-api-key';
-            var tokens = ['your', 'target', 'tokens'];
-            var appId = 'your-app-id';
+            var privateKey = notifyService.privateKey;
+            var tokens = notifyService.tokens;
+            var appId = notifyService.appId;
 
             // Encode your key
             var auth = btoa(privateKey + ':');

@@ -10,6 +10,7 @@
 angular.module('allsop')
     .service('loginService', function ($timeout, $rootScope) {
         var vm = this;
+        
         var local = new PouchDB('logindetails');
         // var remote = new PouchDB('https://desimeentsteryingespelte:428b3ecba6fcddf3536a9776726431b6a3a89d40@ianmcloughlin.cloudant.com/logindetails');
         var remote = new PouchDB('http://localhost:5984/logindetails');
