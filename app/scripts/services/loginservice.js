@@ -63,7 +63,7 @@ angular.module('allsop')
         }
 
         function saveUser() {
-            console.log("saving user: " + JSON.stringify(vm.user));
+            // console.log("saving user: " + JSON.stringify(vm.user));
             db.put(vm.user);
         }
 
