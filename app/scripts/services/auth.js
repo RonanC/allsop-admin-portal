@@ -9,7 +9,7 @@
  */
 angular.module('allsop')
     .service('auth', function ($location) {
-        var user;
+        var user = false;
 
         return {
             setUser: function (aUser) {
