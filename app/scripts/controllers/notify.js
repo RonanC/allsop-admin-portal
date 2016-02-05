@@ -8,12 +8,13 @@
  * Controller of the allsop
  */
 angular.module('allsop')
-    .controller('NotifyCtrl', function ($http, notifyService) {
+    .controller('NotifyCtrl', function ($http, notifyService, $timeout) {
         // http://docs.ionic.io/docs/push-api-examples
         var vm = this;
-        
+
+        vm.notifySuccess = false;
         vm.sendPush = sendPush;
-        
+
         function sendPush(message) {
             console.log(message);
             
@@ -46,6 +47,11 @@ angular.module('allsop')
             $http(req).success(function (resp) {
                 // Handle success
                 console.log("Ionic Push: Push success!");
+                vm.notifySuccess = true;
+
+                $timeout(function () {
+                    vm.notifySuccess = false;
+                }, 2000);
             }).error(function (error) {
                 // Handle error 
                 console.log("Ionic Push: Push error...");

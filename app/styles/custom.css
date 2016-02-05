@@ -40,3 +40,15 @@ body {
 #auc-list input {
     background-color: #fff;
 }
+
+#error-message {
+    font-weight: bold;
+    color: darkred;
+    text-align: center;
+}
+
+#success-message {
+    font-weight: bold;
+    color: green;
+    text-align: center;
+}

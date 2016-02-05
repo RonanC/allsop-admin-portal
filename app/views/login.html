@@ -2,6 +2,9 @@
 
 <div class="container">
     <form name="loginForm" ng-submit="login.loginAttempt(user)">
+
+        <p id="error-message" ng-show="login.loginError" class="bg-danger">Incorrect username and/or password</p>
+
         <div class="form-group">
             <label for="messageInput">Username</label>
             <input type="text" class="form-control" id="username" ng-model="user.username" ng-minlength="4" ng-maxlength="15" required>

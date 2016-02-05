@@ -13,7 +13,7 @@ angular.module('allsop')
         
         var local = new PouchDB('logindetails');
         // var remote = new PouchDB('https://desimeentsteryingespelte:428b3ecba6fcddf3536a9776726431b6a3a89d40@ianmcloughlin.cloudant.com/logindetails');
-        var remote = new PouchDB('http://localhost:5984/logindetails');
+        // var remote = new PouchDB('http://localhost:5984/logindetails');
         var db = local;
 
         // vm.user = { username: 'allsop', password: 'poslla' };
@@ -32,13 +32,13 @@ angular.module('allsop')
                 vm.getDetails();
             });
 
-            local.sync(remote, {
-                live: true
-            }).on('change', function (change) {
-                // yo, something changed!
-            }).on('error', function (err) {
-                // yo, we got an error! (maybe the user went offline?)
-            });
+            // local.sync(remote, {
+            //     live: true
+            // }).on('change', function (change) {
+            //     // yo, something changed!
+            // }).on('error', function (err) {
+            //     // yo, we got an error! (maybe the user went offline?)
+            // });
 
             vm.getUser();
         }

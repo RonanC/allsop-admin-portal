@@ -1,11 +1,15 @@
 <h1 class="jumbotron" id="magenta">Push Notifications</h1>
 
 <div class="container">
-<!--http://getbootstrap.com/css/#forms-->
+    <!--http://getbootstrap.com/css/#forms-->
+
+    <p id="success-message" ng-show="notify.notifySuccess" class="bg-success">Push Sent!</p>
+
     <form name="pushForm" ng-submit="notify.sendPush(push)">
         <div class="form-group">
             <label for="messageInput">Message</label>
-            <input type="text" class="form-control" id="messageInput" placeholder="Enter message here" ng-model="push.message" ng-minlength="5" ng-maxlength="200" required>
+            <input type="text" class="form-control" id="messageInput" placeholder="Enter message here" ng-model="push.message" ng-minlength="5"
+            ng-maxlength="200" required>
         </div>
         <button type="submit" class="btn btn-primary" ng-disabled="!pushForm.$valid">Submit</button>
     </form>
