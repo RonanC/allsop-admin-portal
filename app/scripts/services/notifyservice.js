@@ -19,7 +19,7 @@ angular.module('allsop')
         // get key and id from DB
         vm.privateKey = '2e218f3f3198512516f2a127d483ad7937111a3fd04da710';
         vm.appId = '00dc3d1a';
-        vm.tokens = [];
+        vm.tokens = ['0d3b6bb237825183573af83a8d05380775625b154e93a3c4e2082058d5e06961'];
         vm.init = init;
         vm.getDetails = getDetails;
 

@@ -23,6 +23,7 @@ angular.module('allsop')
         }
 
         function login(user) {
+            vm.user = loginService.user;
             if (vm.user.username == user.username && vm.user.password == user.password) {
                 $rootScope.isLoggedOut = false;
                 auth.setUser(true);
