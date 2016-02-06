@@ -3,7 +3,9 @@
 <div class="container">
     <!--http://getbootstrap.com/css/#forms-->
 
-    <p id="success-message" ng-show="notify.notifySuccess" class="bg-success">Push Sent!</p>
+    <p id="success-message" ng-show="notify.notifySuccess" class="bg-success">Push sent!</p>
+    <p id="error-message" ng-show="notify.notifyError" class="bg-danger">Push error!</p>
+    <p id="warning-message" ng-show="notify.notifyWarning" class="bg-warning">Push sending...</p>
 
     <form name="pushForm" ng-submit="notify.sendPush(push)">
         <div class="form-group">
@@ -22,16 +24,17 @@
             <th>Time Sent</th>
             <th>Message</th>
             <th>Result</th>
-            <th>Message ID</th>
+            <!--<th>Message ID</th>-->
         </tr>
 
         <tr ng-repeat="message in notify.messages">
             <td>{{ message.timeStamp }}</td>
             <td>{{ message.message }}</td>
             <td>{{ message.result }}</td>
-            <td>{{ message.message_id }}</td>
+            <!--<td>{{ message.message_id }}</td>-->
         </tr>
     </table>
 
+    <!--<button ng-click="notify.debugLog()">debug</button>-->
 
 </div>

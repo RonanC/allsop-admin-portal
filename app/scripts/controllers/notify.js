@@ -13,15 +13,22 @@ angular.module('allsop')
         var vm = this;
 
         vm.notifySuccess = false;
+        vm.notifyError = false;
+        vm.notifyWarning = false;
+
         vm.sendPush = sendPush;
 
         vm.messages = notifyService.messages;
 
+        vm.debugLog = notifyService.debugLog;
+
         function sendPush(message) {
+            vm.notifyWarning = true;
+            
             // Define relevant info
-            var privateKey = notifyService.privateKey;
-            var tokens = notifyService.tokens;
-            var appId = notifyService.appId;
+            var privateKey = notifyService.appDetails.privateKey;
+            var tokens = notifyService.deviceTokens;
+            var appId = notifyService.appDetails.appId;
 
             // Encode your key
             var auth = btoa(privateKey + ':');
@@ -38,16 +45,18 @@ angular.module('allsop')
                 data: {
                     "tokens": tokens,
                     "notification": {
-                        "alert": "Hello World!"
+                        "alert": message.message
                     }
                 }
             };
 
+            console.log("req: " + JSON.stringify(req));
+
             // Make the API call
             $http(req).success(function (resp) {
                 // Handle success
-                console.log("Ionic Push: Push success!");
-                console.log("req: " + JSON.stringify(req));
+                //console.log("Ionic Push: Push success!");
+
 
                 resp.message = req.data.notification.alert;
                 resp.tokens = req.data.tokens;
@@ -55,16 +64,22 @@ angular.module('allsop')
 
                 notifyService.saveMessageId(resp);
 
-                console.log("resp: " + JSON.stringify(resp));
+                //console.log("resp: " + JSON.stringify(resp));
 
+                vm.notifyWarning = false;
                 vm.notifySuccess = true;
-
                 $timeout(function () {
                     vm.notifySuccess = false;
-                }, 2000);
+                }, 4000);
             }).error(function (error) {
                 // Handle error 
                 console.log("Ionic Push: Push error...");
+
+                vm.notifyWarning = false;
+                vm.notifyError = true;
+                $timeout(function () {
+                    vm.notifyError = false;
+                }, 4000);
             });
         }
 

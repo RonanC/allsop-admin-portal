@@ -52,3 +52,9 @@ body {
     color: green;
     text-align: center;
 }
+
+#warning-message {
+    font-weight: bold;
+    color: darkgoldenrod;
+    text-align: center;
+}

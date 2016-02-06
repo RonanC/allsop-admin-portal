@@ -54,12 +54,12 @@ angular
     .run(['$rootScope', '$location', 'auth', function ($rootScope, $location, auth) {
         $rootScope.$on('$routeChangeStart', function (event) {
             if (!auth.isLoggedIn()) {
-                console.log('DENY');
+                //console.log('DENY');
                 // event.preventDefault();
                 $location.path('/login');
             }
             else {
-                console.log('ALLOW');
+                //console.log('ALLOW');
                 $location.path($location.$$path);
             }
         });

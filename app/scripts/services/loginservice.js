@@ -12,7 +12,7 @@ angular.module('allsop')
         var vm = this;
         
         var local = new PouchDB('logindetails');
-        // var remote = new PouchDB('https://desimeentsteryingespelte:428b3ecba6fcddf3536a9776726431b6a3a89d40@ianmcloughlin.cloudant.com/logindetails');
+        // var remote = new PouchDB('https://desimeentsteryingespelte:428b3ecba6fcddf3536a9776726431b6a3a89d40@ianmcloughlin.cloudant.com/allsop-logindetails');
         // var remote = new PouchDB('http://localhost:5984/logindetails');
         var db = local;
 
@@ -47,7 +47,7 @@ angular.module('allsop')
 
         function getUser() {
             db.allDocs({ include_docs: true, descending: true }, function (err, doc) {
-                console.log('DB Change');
+                //console.log('DB Change');
                 // console.log('doc: ' + JSON.stringify(doc.total_rows));
 
                 if (doc.total_rows < 1) {

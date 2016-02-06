@@ -13,7 +13,7 @@ angular.module('allsop')
         var vm = this;
         var local = new PouchDB('auctions');
         // var remote = new PouchDB('https://desimeentsteryingespelte:428b3ecba6fcddf3536a9776726431b6a3a89d40@ianmcloughlin.cloudant.com/auctions');
-        var remote = new PouchDB('https://ronanconnolly.cloudant.com/allsop-auctions');
+        var remote = new PouchDB('https://thanybrondereencedislons:997420e3f613a83f74a5669052ad212212527e5f@ronanconnolly.cloudant.com/allsop-auctions');
 
         var db = local;
 
