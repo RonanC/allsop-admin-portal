@@ -84,7 +84,7 @@ function saveUser(newUser) {
             if (user.deviceToken == newUser.deviceToken) {
                 // console.log("user already added...");
                 userUnique = false;
-            } else if (newUser.deviceToken != null && newUser.deviceToken != undefined && newUser.deviceToken != '') {
+            } else if (newUser.deviceToken == null || newUser.deviceToken == undefined || newUser.deviceToken == '') {
                 userUnique = false;
             }
         }, this);
