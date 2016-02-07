@@ -108,12 +108,12 @@ angular.module('allsop')
         }
 
         vm.saveUser = saveUser;
-        function saveUser(user) {
+        function saveUser(newUser) {
             var userUnique = true;
 
             vm.users.users.forEach(function (user) {
-                // console.log('vm.users.users.deviceToken: ' + vm.users.users.deviceToken + '\nuser.deviceToken: ' + user.deviceToken);
-                if (user.deviceToken == user.deviceToken) {
+                console.log('newUser.deviceToken: ' + vm.users.users.deviceToken + '\nuser.deviceToken: ' + user.deviceToken);
+                if (newUser.deviceToken == user.deviceToken) {
                     // console.log("user already added...");
                     userUnique = false;
                 }
@@ -121,7 +121,7 @@ angular.module('allsop')
 
             if (userUnique) {
                 // console.log('vm.users before: ' + JSON.stringify(vm.users.users));
-                vm.users.users.push(user);
+                vm.users.users.push(newUser);
                 db.put(vm.users);
                 // console.log('vm.users after: ' + JSON.stringify(vm.users.users));
 
