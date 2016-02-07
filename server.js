@@ -78,11 +78,13 @@ function saveUser(newUser) {
     var userUnique = true;
     // console.log("vm.users.users: " + JSON.stringify(vm.users.users));
 
-    if (vm.users != undefined && vm.users.users.length > 0) {
+    if (vm.users.users.length > 0) { // or undefined?
         vm.users.users.forEach(function (user) {
             // console.log('newUser.deviceToken: ' + newUser.deviceToken + '\nuser.deviceToken: ' + user.deviceToken);
             if (user.deviceToken == newUser.deviceToken) {
                 // console.log("user already added...");
+                userUnique = false;
+            } else if (newUser.deviceToken != null && newUser.deviceToken != undefined && newUser.deviceToken != '') {
                 userUnique = false;
             }
         }, this);
@@ -107,7 +109,11 @@ function saveUser(newUser) {
 app.post('/addUser', function (req, res) {
     // add new user
     console.log("\n/adduser POST route");
-    console.log("req.body: " + JSON.stringify(req.body));
+    console.log("req: " + JSON.stringify(req));
+    // console.log("req.body: " + JSON.stringify(req.body));
+    // console.log("req.params: " + JSON.stringify(req.params));
+    // console.log("req.query: " + JSON.stringify(req.query));
+    // console.log("req.body.user: " + JSON.stringify(req.body.user));
 
     var newUser = {};
     newUser.deviceToken = req.body.deviceToken;
@@ -117,9 +123,9 @@ app.post('/addUser', function (req, res) {
 
     var statusCode = vm.saveUser(newUser);
     var message = "unknown";
-    if(statusCode == 201){
+    if (statusCode == 201) {
         message = "user added\n";
-    }else if (statusCode == 202){
+    } else if (statusCode == 202) {
         message = "user already in database\n";
     }
     
@@ -130,6 +136,10 @@ app.post('/addUser', function (req, res) {
 app.get('/addUser', function (req, res) {
     // add new user
     console.log("/adduser GET route");
+    console.log("req: " + JSON.stringify(req));
+    // console.log("req.body: " + JSON.stringify(req.body));
+    // console.log("req.params: " + JSON.stringify(req.params));
+    // console.log("req.query: " + JSON.stringify(req.query));
     
     // sync pouch
     res.status(200).send("/adduser GET route\n");
