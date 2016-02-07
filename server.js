@@ -80,7 +80,7 @@ function saveUser(newUser) {
 
     if (vm.users.users.length > 0) { // or undefined?
         vm.users.users.forEach(function (user) {
-            console.log('newUser.deviceToken: ' + newUser.deviceToken + '\nuser.deviceToken: ' + user.deviceToken);
+            // console.log('newUser.deviceToken: ' + newUser.deviceToken + '\nuser.deviceToken: ' + user.deviceToken);
             if (user.deviceToken == newUser.deviceToken) {
                 // console.log("user already added...");
                 userUnique = false;
@@ -137,12 +137,9 @@ function saveUser(newUser) {
 app.get('/addUser', function (req, res) {
     // add new user
     console.log("\n/adduser GET route");
-    // console.log(req);
-    // console.log("req.body: " + JSON.stringify(req.body));
-    // console.log("req.params: " + JSON.stringify(req.params));
-    console.log("req.query: " + JSON.stringify(req.query));
-    // console.log("req.body.user: " + JSON.stringify(req.body.user));
-
+    
+    // console.log("req.query: " + JSON.stringify(req.query));
+    
     var newUser = {};
     newUser.user_id = req.query.user_id;
     newUser.deviceToken = req.query.deviceToken;
@@ -156,10 +153,10 @@ app.get('/addUser', function (req, res) {
     var message = "unknown";
     if (statusCode == 201) {
         message = "user added\n";
-        console.log("user add attempting...\n");
+        console.log("user added\n");
     } else if (statusCode == 202) {
         message = "user already in database\n";
-        console.log("user add failing...\n");
+        console.log("user already in database\n");
     }
     
     // sync pouch
