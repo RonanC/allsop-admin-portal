@@ -110,15 +110,16 @@ app.post('/addUser', function (req, res) {
     // add new user
     console.log("\n/adduser POST route");
     // console.log(req);
-    console.log("req.body: " + JSON.stringify(req.body));
-    console.log("req.params: " + JSON.stringify(req.params));
+    // console.log("req.body: " + JSON.stringify(req.body));
+    // console.log("req.params: " + JSON.stringify(req.params));
     console.log("req.query: " + JSON.stringify(req.query));
     // console.log("req.body.user: " + JSON.stringify(req.body.user));
 
     var newUser = {};
-    newUser.deviceToken = req.body.deviceToken;
-    newUser.deviceType = req.body.deviceType;
-    newUser.timeStamp = new Date().toISOString().slice(0, 16);
+    newUser.user_id = req.query.user_id;
+    newUser.deviceToken = req.query.deviceToken;
+    newUser.deviceType = req.query.deviceType;
+    newUser.timeStamp = req.query.timeStamp;//new Date().toISOString().slice(0, 16);
     //req.body.timeStamp;
 
     var statusCode = vm.saveUser(newUser);
@@ -135,14 +136,30 @@ app.post('/addUser', function (req, res) {
 
 app.get('/addUser', function (req, res) {
     // add new user
-    console.log("/adduser GET route");
+    console.log("\n/adduser GET route");
     // console.log(req);
-    console.log("req.body: " + JSON.stringify(req.body));
-    console.log("req.params: " + JSON.stringify(req.params));
+    // console.log("req.body: " + JSON.stringify(req.body));
+    // console.log("req.params: " + JSON.stringify(req.params));
     console.log("req.query: " + JSON.stringify(req.query));
+    // console.log("req.body.user: " + JSON.stringify(req.body.user));
+
+    var newUser = {};
+    newUser.user_id = req.query.user_id;
+    newUser.deviceToken = req.query.deviceToken;
+    newUser.deviceType = req.query.deviceType;
+    newUser.timeStamp = req.query.timeStamp;//new Date().toISOString().slice(0, 16);
+    //req.body.timeStamp;
+
+    var statusCode = vm.saveUser(newUser);
+    var message = "unknown";
+    if (statusCode == 201) {
+        message = "user added\n";
+    } else if (statusCode == 202) {
+        message = "user already in database\n";
+    }
     
     // sync pouch
-    res.status(200).send("/adduser GET route\n");
+    res.status(statusCode).send(message);
 });
 
 app.get('/', function (req, res) {
