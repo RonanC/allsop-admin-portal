@@ -28,3 +28,24 @@ Now when you run the server and open the various tabs, the local databases will 
 - allsop-auctions  
   
 These databases are located in the angular services.  
+
+## Add User Route
+`/adduser`
+
+This route is for the ionic application.
+It is a post route.
+
+It expects the following data:
+`
+{"deviceToken": "12345", "deviceType": "ios"}
+`
+*A timestamp is then added and the user is saved to the remote pouch database which the admin backend and mobile app can view.*  
+*This is then used by the push notification service.*
+
+And returns either:
+`user added`
+OR
+`user already in database`
+
+*The ionic mobile application sends a post request to this route whenever it saves its data to Ionic.io*
+*This allows us to remove dependence from Ionic.io*

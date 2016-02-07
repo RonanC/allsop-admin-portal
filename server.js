@@ -112,7 +112,8 @@ app.post('/addUser', function (req, res) {
     var newUser = {};
     newUser.deviceToken = req.body.deviceToken;
     newUser.deviceType = req.body.deviceType;
-    newUser.timeStamp = req.body.timeStamp;
+    newUser.timeStamp = new Date().toISOString().slice(0, 16);
+    //req.body.timeStamp;
 
     var statusCode = vm.saveUser(newUser);
     var message = "unknown";
@@ -139,11 +140,11 @@ app.get('/', function (req, res) {
     res.status(200).send('welcome to route / \n');
 });
 
-app.get('/initdb', function (req, res) {
-    console.log('init db \n');
-    vm.initDb();
-    res.status(200).send('init db \n');
-});
+// app.get('/initdb', function (req, res) {
+//     console.log('init db \n');
+//     vm.initDb();
+//     res.status(200).send('init db \n');
+// });
 
 app.listen(port, function () {
     console.log('Our app is running on port: ' + port);
