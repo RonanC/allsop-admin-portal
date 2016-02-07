@@ -45,16 +45,15 @@ angular.module('allsop')
         }, 10000);
 
         // add user simulation
-        // test user
-        var userRonan = {};
-        userRonan.deviceToken = '0d3b6bb237825183573af83a8d05380775625b154e93a3c4e2082058d5e06961';
-        userRonan.deviceType = 'ios';
-        userRonan.timeStamp = new Date().toISOString().slice(0, 16);
-
-        $timeout(function () {
-            console.log('adding user...');
-            notifyService.saveUser(userRonan);
-        }, 5000);
+        // // test user
+        // var userRonan = {};
+        // userRonan.deviceToken = '0d3b6bb237825183573af83a8d05380775625b154e93a3c4e2082058d5e06961';
+        // userRonan.deviceType = 'ios';
+        // userRonan.timeStamp = new Date().toISOString().slice(0, 16);
+        // $timeout(function () {
+        //     console.log('adding user...');
+        //     notifyService.saveUser(userRonan);
+        // }, 5000);
 
         function refreshMsgStatus() {
             // var def = $q.defer();
@@ -118,7 +117,7 @@ angular.module('allsop')
                 }
             };
 
-            console.log("req: " + JSON.stringify(req));
+            // console.log("req: " + JSON.stringify(req));
 
             // Make the API call
             $http(req).success(function (resp) {
@@ -179,7 +178,7 @@ angular.module('allsop')
                 // newStatus = resp.status;÷
                 // return resp.status;
                 vm.messages[index].result = resp.status;
-                console.log(vm.messages[index]);
+                // console.log(vm.messages[index]);
             }).error(function (error) {
                 // Handle error 
                 console.log("Ionic Push: Push error...");

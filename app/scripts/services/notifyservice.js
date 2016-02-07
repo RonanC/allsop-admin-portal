@@ -123,12 +123,12 @@ angular.module('allsop')
                 // console.log('vm.users before: ' + JSON.stringify(vm.users.users));
                 vm.users.users.push(user);
                 db.put(vm.users);
-                console.log('vm.users after: ' + JSON.stringify(vm.users.users));
+                // console.log('vm.users after: ' + JSON.stringify(vm.users.users));
 
                 getDeviceTokens(vm.users.users);
             }
             else {
-                console.log("user with device token '" + user.deviceToken + "' already exists, aborting save...");
+                // console.log("user with device token '" + user.deviceToken + "' already exists, aborting save...");
             }
 
         }
