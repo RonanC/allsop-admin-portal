@@ -56,34 +56,39 @@ angular.module('allsop')
         // }, 5000);
 
         function refreshMsgStatus() {
-            // var def = $q.defer();
-            var index = 0;
-            // var length = vm.messages.length;
 
-            vm.messages.forEach(function (message) {
+            if (vm.messages != undefined && vm.messages.length > 0) {
+                
 
-                if (message.result == 'queued') {
-                    // console.log("message: " + JSON.stringify(message));
-                    checkStatus(message, index);
-                }
+            
+                // var def = $q.defer();
+                var index = 0;
+                // var length = vm.messages.length;
 
-                // if (index >= length - 1) {
-                //     console.log('count: ' + index + '\nlength-1: ' + (length - 1));
-                //     def.resolve();
-                // }
+                vm.messages.forEach(function (message) {
 
-                index++;
-            }, this);
+                    if (message.result == 'queued') {
+                        // console.log("message: " + JSON.stringify(message));
+                        checkStatus(message, index);
+                    }
 
-            // def.promise.then(function () {
-            //     // console.log("ready");
-            //     notifyService.updateMessages(vm.messages);
-            // });
+                    // if (index >= length - 1) {
+                    //     console.log('count: ' + index + '\nlength-1: ' + (length - 1));
+                    //     def.resolve();
+                    // }
 
-            $timeout(function () {
-                notifyService.updateMessages(vm.messages);
-            }, 5000);
+                    index++;
+                }, this);
 
+                // def.promise.then(function () {
+                //     // console.log("ready");
+                //     notifyService.updateMessages(vm.messages);
+                // });
+
+                $timeout(function () {
+                    notifyService.updateMessages(vm.messages);
+                }, 5000);
+            }
         }
 
 
