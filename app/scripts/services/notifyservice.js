@@ -24,12 +24,6 @@ angular.module('allsop')
         vm.users = [];
         vm.deviceTokens = [];
         
-        // test user
-        var userRonan = {};
-        userRonan.deviceToken = '0d3b6bb237825183573af83a8d05380775625b154e93a3c4e2082058d5e06961';
-        userRonan.deviceType = 'ios';
-        userRonan.timeStamp = new Date().toISOString().slice(0, 16);
-        
         // add user to list
         // vm.users.users.push(userRonan);
         
@@ -93,44 +87,75 @@ angular.module('allsop')
                         // console.log("vm.appDetails: " + JSON.stringify(vm.appDetails));
                     }
                     else if (element.id === 'users') {
-                        console.log("length: " + element.doc.users.length);
                         vm.users = element.doc;
-                        vm.users.users.push(userRonan);
-                        console.log("vm.users: " + JSON.stringify(vm.users));
-                        console.log("length: " + element.doc.users.length);
-
+                        
+                        // console.log("vm.users: " + JSON.stringify(vm.users));
+                        getDeviceTokens(vm.users.users);
                     } else if (element.id === 'messages') {
-                        // console.log("element: " + JSON.stringify(element.id));
                         vm.messages = element.doc;
-                        console.log("vm.messages: " + JSON.stringify(vm.messages.messages));
+                        // console.log("vm.messages: " + JSON.stringify(vm.messages.messages));
                     }
                 }, this);
-                
-                // vm.appDetails = doc.rows.appDetails;
-                // vm.users = [];
-                // vm.messages = [];
-                
-                // vm.tokens = ['0d3b6bb237825183573af83a8d05380775625b154e93a3c4e2082058d5e06961'];
-                // insert call here
             });
 
             $timeout(function () { $rootScope.$apply(); });
-
-            console.log("vm.users: " + JSON.stringify(vm.users));
-            //getDeviceTokens(vm.users.users);
         }
 
         function saveMessageId(resp) {
-            console.log('vm.messages: ' + JSON.stringify(vm.messages.messages));
+            // console.log('vm.messages: ' + JSON.stringify(vm.messages.messages));
             vm.messages.messages.push(resp);
+            db.put(vm.messages);
+        }
+
+        vm.saveUser = saveUser;
+        function saveUser(user) {
+            var userUnique = true;
+
+            vm.users.users.forEach(function (user) {
+                // console.log('vm.users.users.deviceToken: ' + vm.users.users.deviceToken + '\nuser.deviceToken: ' + user.deviceToken);
+                if (user.deviceToken == user.deviceToken) {
+                    // console.log("user already added...");
+                    userUnique = false;
+                }
+            }, this);
+
+            if (userUnique) {
+                // console.log('vm.users before: ' + JSON.stringify(vm.users.users));
+                vm.users.users.push(user);
+                db.put(vm.users);
+                console.log('vm.users after: ' + JSON.stringify(vm.users.users));
+
+                getDeviceTokens(vm.users.users);
+            }
+            else {
+                console.log("user with device token '" + user.deviceToken + "' already exists, aborting save...");
+            }
+
         }
 
         function getDeviceTokens(users) {
-            // if (users.){
-            users.forEach(function (user) {
-                vm.deviceTokens.push(user.deviceToken);
-            }, this);
-            // }
+            // console.log("users : " + JSON.stringify(users));
+            if (users != undefined && users.length > 0) {
+                users.forEach(function (user) {
+                    vm.deviceTokens.push(user.deviceToken);
+                }, this);
+
+                // console.log("vm.deviceTokens: " + vm.deviceTokens);
+            }
+        }
+
+        vm.getMessages = getMessages;
+
+        function getMessages() {
+            return vm.messages.messages
+        }
+        
+        vm.updateMessages = updateMessages;
+        function updateMessages(updatedMessages){
+            // console.log('updatedMessages: ' + JSON.stringify(updatedMessages));
+            // console.log('vm.messages.messages : ' + JSON.stringify(vm.messages.messages));
+            vm.messages.messages = updatedMessages;
+            db.put(vm.messages);
         }
 
         return vm;

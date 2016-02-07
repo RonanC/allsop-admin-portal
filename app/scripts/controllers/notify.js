@@ -8,7 +8,7 @@
  * Controller of the allsop
  */
 angular.module('allsop')
-    .controller('NotifyCtrl', function ($http, notifyService, $timeout) {
+    .controller('NotifyCtrl', function ($http, notifyService, $timeout, $interval) {
         // http://docs.ionic.io/docs/push-api-examples
         var vm = this;
 
@@ -18,9 +18,69 @@ angular.module('allsop')
 
         vm.sendPush = sendPush;
 
-        vm.messages = notifyService.messages;
+        vm.messages = notifyService.getMessages();
 
-        vm.debugLog = notifyService.debugLog;
+        $timeout(function () {
+            vm.messages = notifyService.getMessages();
+        }, 500);
+
+        $timeout(function () {
+            refreshMsgStatus();
+        }, 1000);
+        
+        // this gets called every 5 seconds
+        // this is not efficient, it is only needed the first time you visit the page
+        var refreshInterval;
+        refreshInterval = $interval(function(){
+            // console.log("interval...");
+            refreshMsgStatus();
+        }, 10000);
+
+        // add user simulation
+        // test user
+        var userRonan = {};
+        userRonan.deviceToken = '0d3b6bb237825183573af83a8d05380775625b154e93a3c4e2082058d5e06961';
+        userRonan.deviceType = 'ios';
+        userRonan.timeStamp = new Date().toISOString().slice(0, 16);
+
+        $timeout(function () {
+            console.log('adding user...');
+            notifyService.saveUser(userRonan);
+        }, 5000);
+
+        function refreshMsgStatus() {
+            // var def = $q.defer();
+            var index = 0;
+            // var length = vm.messages.length;
+
+            vm.messages.forEach(function (message) {
+
+                if (message.result == 'queued') {
+                    // console.log("message: " + JSON.stringify(message));
+                    checkStatus(message, index);
+                }
+
+                // if (index >= length - 1) {
+                //     console.log('count: ' + index + '\nlength-1: ' + (length - 1));
+                //     def.resolve();
+                // }
+
+                index++;
+            }, this);
+
+            // def.promise.then(function () {
+            //     // console.log("ready");
+            //     notifyService.updateMessages(vm.messages);
+            // });
+
+            $timeout(function () {
+                notifyService.updateMessages(vm.messages);
+            }, 5000);
+
+        }
+
+
+        // vm.debugLog = notifyService.debugLog;
 
         function sendPush(message) {
             vm.notifyWarning = true;
@@ -63,7 +123,7 @@ angular.module('allsop')
                 resp.timeStamp = new Date().toISOString().slice(0, 16);
 
                 notifyService.saveMessageId(resp);
-
+                vm.messages = notifyService.getMessages();
                 //console.log("resp: " + JSON.stringify(resp));
 
                 vm.notifyWarning = false;
@@ -83,10 +143,10 @@ angular.module('allsop')
             });
         }
 
-        function checkStatus() {
-            var privateKey = notifyService.privateKey;
-            var appId = notifyService.appId;
-            var statusId = 'your-message-status-code'
+        function checkStatus(message, index) {
+            var privateKey = notifyService.appDetails.privateKey;
+            var appId = notifyService.appDetails.appId;
+            var statusId = message.message_id; //'your-message-status-code'
 
             // Encode your key
             var auth = btoa(privateKey + ':');
@@ -105,11 +165,20 @@ angular.module('allsop')
             // Make the API call
             $http(req).success(function (resp) {
                 // Handle success
-                console.log("Ionic Push: Push success!");
+                // console.log("Ionic Push: Push success!");
+                // console.log("req: " + JSON.stringify(req));
+                // console.log("resp: " + JSON.stringify(resp.status));
+                // newStatus = resp.status;÷
+                // return resp.status;
+                vm.messages[index].result = resp.status;
+                console.log(vm.messages[index]);
             }).error(function (error) {
                 // Handle error 
                 console.log("Ionic Push: Push error...");
+                console.log("error: " + JSON.stringify(error));
+                // return 'Unknown';
             });
+
         }
 
     });

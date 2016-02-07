@@ -10,10 +10,9 @@
 angular.module('allsop')
     .service('loginService', function ($timeout, $rootScope) {
         var vm = this;
-        
+
         var local = new PouchDB('logindetails');
-        // var remote = new PouchDB('https://desimeentsteryingespelte:428b3ecba6fcddf3536a9776726431b6a3a89d40@ianmcloughlin.cloudant.com/allsop-logindetails');
-        // var remote = new PouchDB('http://localhost:5984/logindetails');
+        var remote = new PouchDB('https://malledingetteralleadstak:2647335840445ee4357ab6bbb0fdb31aa9ae9961@ronanconnolly.cloudant.com/allsop-backend');
         var db = local;
 
         // defaults
@@ -31,7 +30,7 @@ angular.module('allsop')
                 since: 'now',
                 live: true
             }).on('change', function () {
-                vm.getDetails();
+                vm.getUser();
             });
 
             // local.sync(remote, {
@@ -41,6 +40,8 @@ angular.module('allsop')
             // }).on('error', function (err) {
             //     // yo, we got an error! (maybe the user went offline?)
             // });
+            
+            local.replicate.from(remote);
 
             vm.getUser();
         }
@@ -48,16 +49,23 @@ angular.module('allsop')
         function getUser() {
             db.allDocs({ include_docs: true, descending: true }, function (err, doc) {
                 //console.log('DB Change');
-                // console.log('doc: ' + JSON.stringify(doc.total_rows));
+                // console.log('doc: ' + JSON.stringify(doc));
 
-                if (doc.total_rows < 1) {
-                    vm.user.username = "allsop"
-                    vm.user.password = "poslla"
-                    vm.saveUser();
-                } else {
-                    vm.user.username = doc.rows[0].doc.username;
-                    vm.user.password = doc.rows[0].doc.password;
-                }
+                doc.rows.forEach(function (element) {
+                    if (element.id === 'loginDetails') {
+                        // console.log("element: " + JSON.stringify(element));
+
+                        if (doc.total_rows < 1) {
+                            vm.user.username = "allsop"
+                            vm.user.password = "poslla"
+                            // vm.saveUser();
+                        } else {
+                            vm.user.username = element.doc.username;//doc.rows[0].doc.username;
+                            vm.user.password = element.doc.password;//doc.rows[0].doc.password;
+                            // console.log("vm.user: " + JSON.stringify(vm.user));
+                        }
+                    }
+                }, this);
 
             });
 
@@ -66,7 +74,7 @@ angular.module('allsop')
 
         function saveUser() {
             // console.log("saving user: " + JSON.stringify(vm.user));
-            db.put(vm.user);
+            // db.put(vm.user);
         }
 
         return vm;
