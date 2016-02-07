@@ -134,7 +134,7 @@ function saveUser(newUser) {
 //     res.status(statusCode).send(message);
 // });
 
-app.get('/addUser', function (req, res) {
+app.post('/addUser', function (req, res) {
     // add new user
     console.log("\n/adduser GET route");
     
