@@ -22,7 +22,7 @@ vm.initDb = initDb;
 vm.getDetails = getDetails;
 vm.saveUser = saveUser;
 
-// vm.initDb();
+vm.initDb();
 
 function initDb() {
     console.log('initDb');
@@ -76,9 +76,7 @@ function saveUser(newUser) {
 
 
     var userUnique = true;
-    // console.log("vm.users (before): " + JSON.stringify(vm.users));
-
-    console.log("vm.users.users: " + JSON.stringify(vm.users.users));
+    // console.log("vm.users.users: " + JSON.stringify(vm.users.users));
 
     if (vm.users != undefined && vm.users.users.length > 0) {
         vm.users.users.forEach(function (user) {
@@ -94,9 +92,13 @@ function saveUser(newUser) {
         // console.log('vm.users before: ' + JSON.stringify(vm.users.users));
         vm.users.users.push(newUser);
         db.put(vm.users);
-        console.log('vm.users (after): ' + JSON.stringify(vm.users.users));
+        // console.log('vm.users (after): ' + JSON.stringify(vm.users.users));
+        
+        return 201;
+        console.log("user added");
     }
     else {
+        return 202;
         console.log("user not unique");
     }
 }
@@ -112,10 +114,16 @@ app.post('/addUser', function (req, res) {
     newUser.deviceType = req.body.deviceType;
     newUser.timeStamp = req.body.timeStamp;
 
-    vm.saveUser(newUser);
+    var statusCode = vm.saveUser(newUser);
+    var message = "unknown";
+    if(statusCode == 201){
+        message = "user added\n";
+    }else if (statusCode == 202){
+        message = "user already in database\n";
+    }
     
     // sync pouch
-    res.status(200).send("/adduser POST route\n");
+    res.status(statusCode).send(message);
 });
 
 app.get('/addUser', function (req, res) {
