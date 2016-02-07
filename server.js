@@ -22,7 +22,7 @@ vm.initDb = initDb;
 vm.getDetails = getDetails;
 vm.saveUser = saveUser;
 
-vm.initDb();
+// vm.initDb();
 
 function initDb() {
     // console.log('initDb');
