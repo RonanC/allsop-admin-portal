@@ -22,7 +22,15 @@ angular.module('allsop')
 
         $timeout(function () {
             vm.messages = notifyService.getMessages();
+        }, 250);
+
+        $timeout(function () {
+            vm.messages = notifyService.getMessages();
         }, 500);
+
+        $timeout(function () {
+            vm.messages = notifyService.getMessages();
+        }, 1000);
 
         $timeout(function () {
             refreshMsgStatus();
@@ -31,7 +39,7 @@ angular.module('allsop')
         // this gets called every 5 seconds
         // this is not efficient, it is only needed the first time you visit the page
         var refreshInterval;
-        refreshInterval = $interval(function(){
+        refreshInterval = $interval(function () {
             // console.log("interval...");
             refreshMsgStatus();
         }, 10000);
