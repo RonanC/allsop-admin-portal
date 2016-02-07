@@ -20,16 +20,24 @@ angular.module('allsop')
 
         vm.messages = notifyService.getMessages();
 
+
+
         $timeout(function () {
             vm.messages = notifyService.getMessages();
+            vm.userCount = notifyService.deviceTokens.length;
+            // console.log(notifyService.deviceTokens);
         }, 250);
 
         $timeout(function () {
             vm.messages = notifyService.getMessages();
+            vm.userCount = notifyService.deviceTokens.length;
+            // console.log(notifyService.deviceTokens);
         }, 500);
 
         $timeout(function () {
             vm.messages = notifyService.getMessages();
+            vm.userCount = notifyService.deviceTokens.length;
+            // console.log(notifyService.deviceTokens);
         }, 1000);
 
         $timeout(function () {
@@ -42,6 +50,8 @@ angular.module('allsop')
         refreshInterval = $interval(function () {
             // console.log("interval...");
             refreshMsgStatus();
+            vm.userCount = notifyService.deviceTokens.length;
+            // console.log(notifyService.deviceTokens);
         }, 10000);
 
         // add user simulation

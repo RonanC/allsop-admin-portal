@@ -135,9 +135,10 @@ angular.module('allsop')
 
         function getDeviceTokens(users) {
             // console.log("users : " + JSON.stringify(users));
+            vm.deviceTokens = [];
             if (users != undefined && users.length > 0) {
                 users.forEach(function (user) {
-                    vm.deviceTokens.push(user.deviceToken);
+                        vm.deviceTokens.push(user.deviceToken);
                 }, this);
 
                 // console.log("vm.deviceTokens: " + vm.deviceTokens);
@@ -149,9 +150,9 @@ angular.module('allsop')
         function getMessages() {
             return vm.messages.messages
         }
-        
+
         vm.updateMessages = updateMessages;
-        function updateMessages(updatedMessages){
+        function updateMessages(updatedMessages) {
             // console.log('updatedMessages: ' + JSON.stringify(updatedMessages));
             // console.log('vm.messages.messages : ' + JSON.stringify(vm.messages.messages));
             vm.messages.messages = updatedMessages;
