@@ -109,10 +109,10 @@ function saveUser(newUser) {
 app.post('/addUser', function (req, res) {
     // add new user
     console.log("\n/adduser POST route");
-    console.log(req);
-    // console.log("req.body: " + JSON.stringify(req.body));
-    // console.log("req.params: " + JSON.stringify(req.params));
-    // console.log("req.query: " + JSON.stringify(req.query));
+    // console.log(req);
+    console.log("req.body: " + JSON.stringify(req.body));
+    console.log("req.params: " + JSON.stringify(req.params));
+    console.log("req.query: " + JSON.stringify(req.query));
     // console.log("req.body.user: " + JSON.stringify(req.body.user));
 
     var newUser = {};
@@ -137,9 +137,9 @@ app.get('/addUser', function (req, res) {
     // add new user
     console.log("/adduser GET route");
     // console.log(req);
-    // console.log("req.body: " + JSON.stringify(req.body));
+    console.log("req.body: " + JSON.stringify(req.body));
     console.log("req.params: " + JSON.stringify(req.params));
-    // console.log("req.query: " + JSON.stringify(req.query));
+    console.log("req.query: " + JSON.stringify(req.query));
     
     // sync pouch
     res.status(200).send("/adduser GET route\n");
