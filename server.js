@@ -80,7 +80,7 @@ function saveUser(newUser) {
 
     if (vm.users.users.length > 0) { // or undefined?
         vm.users.users.forEach(function (user) {
-            // console.log('newUser.deviceToken: ' + newUser.deviceToken + '\nuser.deviceToken: ' + user.deviceToken);
+            console.log('newUser.deviceToken: ' + newUser.deviceToken + '\nuser.deviceToken: ' + user.deviceToken);
             if (user.deviceToken == newUser.deviceToken) {
                 // console.log("user already added...");
                 userUnique = false;
@@ -106,33 +106,33 @@ function saveUser(newUser) {
 }
 
 // ROUTES
-app.post('/addUser', function (req, res) {
-    // add new user
-    console.log("\n/adduser POST route");
-    // console.log(req);
-    // console.log("req.body: " + JSON.stringify(req.body));
-    // console.log("req.params: " + JSON.stringify(req.params));
-    console.log("req.query: " + JSON.stringify(req.query));
-    // console.log("req.body.user: " + JSON.stringify(req.body.user));
+// app.post('/addUser', function (req, res) {
+//     // add new user
+//     console.log("\n/adduser POST route");
+//     // console.log(req);
+//     // console.log("req.body: " + JSON.stringify(req.body));
+//     // console.log("req.params: " + JSON.stringify(req.params));
+//     console.log("req.query: " + JSON.stringify(req.query));
+//     // console.log("req.body.user: " + JSON.stringify(req.body.user));
 
-    var newUser = {};
-    newUser.user_id = req.query.user_id;
-    newUser.deviceToken = req.query.deviceToken;
-    newUser.deviceType = req.query.deviceType;
-    newUser.timeStamp = req.query.timeStamp;//new Date().toISOString().slice(0, 16);
-    //req.body.timeStamp;
+//     var newUser = {};
+//     newUser.user_id = req.query.user_id;
+//     newUser.deviceToken = req.query.deviceToken;
+//     newUser.deviceType = req.query.deviceType;
+//     newUser.timeStamp = req.query.timeStamp;//new Date().toISOString().slice(0, 16);
+//     //req.body.timeStamp;
 
-    var statusCode = vm.saveUser(newUser);
-    var message = "unknown";
-    if (statusCode == 201) {
-        message = "user added\n";
-    } else if (statusCode == 202) {
-        message = "user already in database\n";
-    }
+//     var statusCode = vm.saveUser(newUser);
+//     var message = "unknown";
+//     if (statusCode == 201) {
+//         message = "user added\n";
+//     } else if (statusCode == 202) {
+//         message = "user already in database\n";
+//     }
     
-    // sync pouch
-    res.status(statusCode).send(message);
-});
+//     // sync pouch
+//     res.status(statusCode).send(message);
+// });
 
 app.get('/addUser', function (req, res) {
     // add new user
@@ -150,12 +150,16 @@ app.get('/addUser', function (req, res) {
     newUser.timeStamp = req.query.timeStamp;//new Date().toISOString().slice(0, 16);
     //req.body.timeStamp;
 
+    console.log("new user: " + JSON.stringify(newUser));
+
     var statusCode = vm.saveUser(newUser);
     var message = "unknown";
     if (statusCode == 201) {
         message = "user added\n";
+        console.log("user add attempting...\n");
     } else if (statusCode == 202) {
         message = "user already in database\n";
+        console.log("user add failing...\n");
     }
     
     // sync pouch
