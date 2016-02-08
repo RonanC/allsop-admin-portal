@@ -14,7 +14,7 @@ angular.module('allsop')
         var local = new PouchDB('auctions');
         // var remote = new PouchDB('https://desimeentsteryingespelte:428b3ecba6fcddf3536a9776726431b6a3a89d40@ianmcloughlin.cloudant.com/auctions');
         var remote = new PouchDB('https://thanybrondereencedislons:997420e3f613a83f74a5669052ad212212527e5f@ronanconnolly.cloudant.com/allsop-auctions');
-
+        var opts = { live: true };
         var db = local;
 
         vm.auctionEntries = [];
@@ -35,14 +35,15 @@ angular.module('allsop')
                 vm.getEntries();
             });
 
-            local.sync(remote, {
-                live: true
-            }).on('change', function (change) {
-                // yo, something changed!
-            }).on('error', function (err) {
-                // yo, we got an error! (maybe the user went offline?)
-            });
-
+            // local.sync(remote, {
+            //     live: true
+            // }).on('change', function (change) {
+            //     // yo, something changed!
+            // }).on('error', function (err) {
+            //     // yo, we got an error! (maybe the user went offline?)
+            // });
+            
+            db.replicate.from(remote, opts);
 
         }
 
@@ -109,6 +110,7 @@ angular.module('allsop')
 
 
             db.put(entry).then(function (response) {
+                db.replicate.to(remote, opts);
                 // waits for the onchange event to update the local list from the remote db
                 $timeout(function () {
                     def.resolve();
@@ -143,6 +145,7 @@ angular.module('allsop')
         function removeEntry(entry, def) {
             // console.log("remove");
             db.remove(entry).then(function () {
+                db.replicate.to(remote, opts);
                 // waits for the onchange event to update the local list from the remote db
                 $timeout(function () {
                     def.resolve();

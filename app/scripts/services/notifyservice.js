@@ -10,6 +10,7 @@
 angular.module('allsop')
     .service('notifyService', function ($timeout, $rootScope) {
         var vm = this;
+        var opts = { live: true };
 
         var local = new PouchDB('allsop-app');
         var remote = new PouchDB('https://fforecrocheseentelticken:bebcc9f90aab1ed06adbdf8ee0f8d23bce5c8300@ronanconnolly.cloudant.com/allsop-app');
@@ -55,17 +56,18 @@ angular.module('allsop')
                 // db.replicate.to(remote);
             });
 
-            local.sync(remote, {
-                live: true
-            }).on('change', function (change) {
-                // yo, something changed!
-            }).on('error', function (err) {
-                // yo, we got an error! (maybe the user went offline?)
-            });
+            // local.sync(remote, {
+            //     live: true
+            // }).on('change', function (change) {
+            //     // yo, something changed!
+            // }).on('error', function (err) {
+            //     // yo, we got an error! (maybe the user went offline?)
+            // });
             
-            // var opts = { live: true };
+            
+
             // db.replicate.to(remoteCouch, opts, syncError);
-            // db.replicate.from(remote, opts);
+            db.replicate.from(remote, opts);
 
 
 
@@ -105,6 +107,7 @@ angular.module('allsop')
             // console.log('vm.messages: ' + JSON.stringify(vm.messages.messages));
             vm.messages.messages.push(resp);
             db.put(vm.messages);
+            db.replicate.to(remote, opts);
         }
 
         vm.saveUser = saveUser;
@@ -138,7 +141,7 @@ angular.module('allsop')
             vm.deviceTokens = [];
             if (users != undefined && users.length > 0) {
                 users.forEach(function (user) {
-                        vm.deviceTokens.push(user.deviceToken);
+                    vm.deviceTokens.push(user.deviceToken);
                 }, this);
 
                 // console.log("vm.deviceTokens: " + vm.deviceTokens);
