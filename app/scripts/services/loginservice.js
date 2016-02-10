@@ -66,7 +66,8 @@ angular.module('allsop')
                         }
                     }
                 }, this);
-
+            }).catch(function (err) {
+                console.log("err: " + err);
             });
 
             $timeout(function () { $rootScope.$apply(); });

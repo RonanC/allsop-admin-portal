@@ -98,6 +98,8 @@ angular.module('allsop')
                         // console.log("vm.messages: " + JSON.stringify(vm.messages.messages));
                     }
                 }, this);
+            }).catch(function (err) {
+                console.log("err: " + err);
             });
 
             $timeout(function () { $rootScope.$apply(); });
@@ -106,7 +108,9 @@ angular.module('allsop')
         function saveMessageId(resp) {
             // console.log('vm.messages: ' + JSON.stringify(vm.messages.messages));
             vm.messages.messages.push(resp);
-            db.put(vm.messages);
+            db.put(vm.messages).catch(function (err) {
+                console.log("err: " + err);
+            });
             db.replicate.to(remote, opts);
         }
 
@@ -125,7 +129,9 @@ angular.module('allsop')
             if (userUnique) {
                 // console.log('vm.users before: ' + JSON.stringify(vm.users.users));
                 vm.users.users.push(newUser);
-                db.put(vm.users);
+                db.put(vm.users).catch(function (err) {
+                    console.log("err: " + err);
+                });
                 // console.log('vm.users after: ' + JSON.stringify(vm.users.users));
 
                 getDeviceTokens(vm.users.users);
@@ -159,7 +165,9 @@ angular.module('allsop')
             // console.log('updatedMessages: ' + JSON.stringify(updatedMessages));
             // console.log('vm.messages.messages : ' + JSON.stringify(vm.messages.messages));
             vm.messages.messages = updatedMessages;
-            db.put(vm.messages);
+            db.put(vm.messages).catch(function (err) {
+                console.log("err: " + err);
+            });
         }
 
         return vm;

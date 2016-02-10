@@ -53,6 +53,8 @@ angular.module('allsop')
                 console.log('DB Change, updating list...');
                 // console.log('doc: ' + JSON.stringify(doc.rows));
                 addListEntry(doc.rows);
+            }).catch(function (err) {
+                console.log("err: " + err);
             });
 
             $timeout(function () { $rootScope.$apply(); });
@@ -151,6 +153,8 @@ angular.module('allsop')
                     def.resolve();
                     // console.log('update with timeout fired')
                 }, 100);
+            }).catch(function (err) {
+                console.log("err: " + err);
             });
             // vm.auctionEntries.splice(index, 1);
             
