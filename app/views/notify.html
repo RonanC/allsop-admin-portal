@@ -28,7 +28,7 @@
             <!--<th>Message ID</th>-->
         </tr>
 
-        <tr ng-repeat="message in notify.messages">
+        <tr ng-repeat="message in notify.messages track by entry._id">
             <!--// track by notify.message_id  | orderBy : '-timeStamp'"-->
             <td>{{ message.timeStamp }}</td>
             <td>{{ message.message }}</td>
