@@ -68,7 +68,7 @@ angular.module('allsop')
                 if (entry.id.charAt(0) !== '_') {
                     // vm.auctionTitles.push(entry.doc.where);
 
-                    entry.doc.when = formatDate(entry.doc._id);
+                    entry.doc.when = numToDate(entry.doc._id);
                     vm.auctionEntries.push(entry.doc);
                         
                     // vm.auctionObjects.push({
@@ -89,7 +89,7 @@ angular.module('allsop')
         }
         
         // private
-        function formatDate(timestr) {
+        function numToDate(timestr) {
             var asDate = new Date(parseInt(timestr));
             var parsedDate = asDate.toString().slice(0, 21);
 
@@ -97,6 +97,19 @@ angular.module('allsop')
             // console.log("human readable: " + parsedDate);
 
             return parsedDate;
+        }
+        
+        // private
+        function dateToNum(isostr) {
+            var dateToConvert = isostr + ':00 GMT+0000 (GMT)';
+            var newDate = new Date(dateToConvert);
+            var dateNum = Number(newDate);
+            var dateStr = dateNum.toString();
+
+            // console.log('time stamp: ' + isostr);
+            // console.log('human readable: ' + parsedDate);
+
+            return dateStr;
         }
 
         function addEntry(entry, def) {
@@ -106,10 +119,11 @@ angular.module('allsop')
             delete entry.date;
             delete entry.time;
 
-            entry._id = formatISO(entry.when);
+            entry._id = dateToNum(entry.when);
 
             // db.put(entry);
 
+            console.log('new entry: ' + JSON.stringify(entry));
 
             db.put(entry).then(function (response) {
                 db.replicate.to(remote, opts);
@@ -126,23 +140,12 @@ angular.module('allsop')
             
             // vm.auctionEntries.push(entry);
             // console.log("vm.auctionEntries: " + JSON.stringify(vm.auctionEntries));
-            // console.log('new entry: ' + JSON.stringify(entry));
+
 
             return def;
         }
-        
-        // private
-        function formatISO(isostr) {
-            var dateToConvert = isostr + ':00 GMT+0000 (GMT)';
-            var newDate = new Date(dateToConvert);
-            var dateNum = Number(newDate);
-            var dateStr = dateNum.toString();
 
-            // console.log('time stamp: ' + isostr);
-            // console.log('human readable: ' + parsedDate);
 
-            return dateStr;
-        }
 
         function removeEntry(entry, def) {
             // console.log("remove");

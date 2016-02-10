@@ -8,7 +8,7 @@
  * Controller of the allsop
  */
 angular.module('allsop')
-    .controller('NotifyCtrl', function ($http, notifyService, $timeout, $interval) {
+    .controller('NotifyCtrl', function ($http, notifyService, $timeout, $interval, messageService, $filter, $rootScope) {
         // http://docs.ionic.io/docs/push-api-examples
         var vm = this;
 
@@ -18,24 +18,24 @@ angular.module('allsop')
 
         vm.sendPush = sendPush;
 
-        vm.messages = notifyService.getMessages();
+        vm.messages = messageService.getMessages();
 
 
 
         $timeout(function () {
-            vm.messages = notifyService.getMessages();
+            vm.messages = messageService.getMessages();
             vm.userCount = notifyService.deviceTokens.length;
             // console.log(notifyService.deviceTokens);
         }, 250);
 
         $timeout(function () {
-            vm.messages = notifyService.getMessages();
+            vm.messages = messageService.getMessages();
             vm.userCount = notifyService.deviceTokens.length;
             // console.log(notifyService.deviceTokens);
         }, 500);
 
         $timeout(function () {
-            vm.messages = notifyService.getMessages();
+            vm.messages = messageService.getMessages();
             vm.userCount = notifyService.deviceTokens.length;
             // console.log(notifyService.deviceTokens);
         }, 1000);
@@ -52,6 +52,9 @@ angular.module('allsop')
             refreshMsgStatus();
             vm.userCount = notifyService.deviceTokens.length;
             // console.log(notifyService.deviceTokens);
+            
+            vm.messages = messageService.getMessages();
+            $timeout(function () { $rootScope.$apply(); });
         }, 10000);
 
         // add user simulation
@@ -96,7 +99,8 @@ angular.module('allsop')
                 // });
 
                 $timeout(function () {
-                    notifyService.updateMessages(vm.messages);
+                    // messageService.updateMessages(vm.messages);
+                    vm.messages = messageService.getMessages();
                 }, 5000);
             }
         }
@@ -106,6 +110,8 @@ angular.module('allsop')
 
         function sendPush(message) {
             vm.notifyWarning = true;
+
+            // console.log('message text: ' + JSON.stringify(message));
             
             // Define relevant info
             var privateKey = notifyService.appDetails.privateKey;
@@ -139,19 +145,36 @@ angular.module('allsop')
                 // Handle success
                 //console.log("Ionic Push: Push success!");
 
+                // console.log('resp: ' + JSON.stringify(resp));
+                // console.log('req: ' + JSON.stringify(req));
 
                 resp.message = req.data.notification.alert;
                 resp.tokens = req.data.tokens;
-                resp.timeStamp = new Date().toISOString().slice(0, 16);
 
-                notifyService.saveMessageId(resp);
-                vm.messages = notifyService.getMessages();
+                // var date = new Date();
+                // var dateFormatted = $filter('date')(date, "EEE MMM dd yyyy hh:MM"); // for conversion to string
+                // console.log('dateFormatted: ' + dateFormatted);
+                
+                // var dateFormatted = dateFormat(date, "dddd, mmmm dS, yyyy, h:MM:ss TT");
+                
+                resp.timeStamp = Date.now();
+                //$filter('date')(new Date(), "EEE MMM dd yyyy hh:MM"); //dateFormatted; //new Date().toISOString().slice(0, 16);
+                
+                resp._id = Date.now(); //dateToNum(new Date());
+                console.log('resp._id: ' + JSON.stringify(resp._id));
+                // resp._rev = '3-d00e377018a5fd6888a0664311b1ab0a'; // need to have a _rev (cloudant bug)
+                           
+                // save to db
+                messageService.saveMessage(resp);
+
+                vm.messages = messageService.getMessages();
                 //console.log("resp: " + JSON.stringify(resp));
 
                 vm.notifyWarning = false;
                 vm.notifySuccess = true;
                 $timeout(function () {
                     vm.notifySuccess = false;
+                    vm.messages = messageService.getMessages();
                 }, 4000);
             }).error(function (error) {
                 // Handle error 
@@ -163,6 +186,30 @@ angular.module('allsop')
                     vm.notifyError = false;
                 }, 4000);
             });
+        }
+
+        // private
+        // function dateToNum(date) {
+        //     // var dateToConvert = date + ':00 GMT+0000 (GMT)';
+        //     var newDate = new Date(date);
+        //     var dateNum = Number(newDate);
+        //     var dateStr = dateNum.toString();
+
+        //     // console.log('time stamp: ' + isostr);
+        //     // console.log('human readable: ' + parsedDate);
+
+        //     return dateStr;
+        // }
+        
+        // private
+        function numToDate(date) {
+            var asDate = new Date(parseInt(date));
+            var parsedDate = asDate.toString().slice(0, 21);
+
+            // console.log("time stamp: " + timestr);
+            // console.log("human readable: " + parsedDate);
+
+            return parsedDate;
         }
 
         function checkStatus(message, index) {
@@ -193,6 +240,10 @@ angular.module('allsop')
                 // newStatus = resp.status;÷
                 // return resp.status;
                 vm.messages[index].result = resp.status;
+                messageService.saveMessage(vm.messages[index]);
+
+                vm.messages = messageService.getMessages();
+                
                 // console.log(vm.messages[index]);
             }).error(function (error) {
                 // Handle error 

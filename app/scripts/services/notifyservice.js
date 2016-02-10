@@ -10,7 +10,7 @@
 angular.module('allsop')
     .service('notifyService', function ($timeout, $rootScope) {
         var vm = this;
-        var opts = { live: true };
+        // var opts = { live: true };
 
         var local = new PouchDB('allsop-app');
         var remote = new PouchDB('https://fforecrocheseentelticken:bebcc9f90aab1ed06adbdf8ee0f8d23bce5c8300@ronanconnolly.cloudant.com/allsop-app');
@@ -28,12 +28,12 @@ angular.module('allsop')
         // add user to list
         // vm.users.users.push(userRonan);
         
-        // messages
-        vm.messages = [];
+        // // messages
+        // vm.messages = [];
 
         vm.init = init;
         vm.getDetails = getDetails;
-        vm.saveMessageId = saveMessageId;
+        // vm.saveMessageId = saveMessageId;
 
         vm.init();
 
@@ -56,18 +56,18 @@ angular.module('allsop')
                 // db.replicate.to(remote);
             });
 
-            // local.sync(remote, {
-            //     live: true
-            // }).on('change', function (change) {
-            //     // yo, something changed!
-            // }).on('error', function (err) {
-            //     // yo, we got an error! (maybe the user went offline?)
-            // });
+            local.sync(remote, {
+                live: true
+            }).on('change', function (change) {
+                // yo, something changed!
+            }).on('error', function (err) {
+                // yo, we got an error! (maybe the user went offline?)
+            });
             
             
 
             // db.replicate.to(remoteCouch, opts, syncError);
-            db.replicate.from(remote, opts);
+            // db.replicate.from(remote, opts);
 
 
 
@@ -93,10 +93,11 @@ angular.module('allsop')
                         
                         // console.log("vm.users: " + JSON.stringify(vm.users));
                         getDeviceTokens(vm.users.users);
-                    } else if (element.id === 'messages') {
-                        vm.messages = element.doc;
-                        // console.log("vm.messages: " + JSON.stringify(vm.messages.messages));
-                    }
+                    } 
+                    // else if (element.id === 'messages') {
+                    //     vm.messages = element.doc;
+                    //     // console.log("vm.messages: " + JSON.stringify(vm.messages.messages));
+                    // }
                 }, this);
             }).catch(function (err) {
                 console.log("err: " + err);
@@ -105,14 +106,14 @@ angular.module('allsop')
             $timeout(function () { $rootScope.$apply(); });
         }
 
-        function saveMessageId(resp) {
-            // console.log('vm.messages: ' + JSON.stringify(vm.messages.messages));
-            vm.messages.messages.push(resp);
-            db.put(vm.messages).catch(function (err) {
-                console.log("err: " + err);
-            });
-            db.replicate.to(remote, opts);
-        }
+        // function saveMessageId(resp) {
+        //     // console.log('vm.messages: ' + JSON.stringify(vm.messages.messages));
+        //     vm.messages.messages.push(resp);
+        //     db.put(vm.messages).catch(function (err) {
+        //         console.log("err: " + err);
+        //     });
+        //     // db.replicate.to(remote, opts);
+        // }
 
         vm.saveUser = saveUser;
         function saveUser(newUser) {
@@ -154,21 +155,20 @@ angular.module('allsop')
             }
         }
 
-        vm.getMessages = getMessages;
+        // vm.getMessages = getMessages;
+        // function getMessages() {
+        //     return vm.messages.messages
+        // }
 
-        function getMessages() {
-            return vm.messages.messages
-        }
-
-        vm.updateMessages = updateMessages;
-        function updateMessages(updatedMessages) {
-            // console.log('updatedMessages: ' + JSON.stringify(updatedMessages));
-            // console.log('vm.messages.messages : ' + JSON.stringify(vm.messages.messages));
-            vm.messages.messages = updatedMessages;
-            db.put(vm.messages).catch(function (err) {
-                console.log("err: " + err);
-            });
-        }
+        // vm.updateMessages = updateMessages;
+        // function updateMessages(updatedMessages) {
+        //     // console.log('updatedMessages: ' + JSON.stringify(updatedMessages));
+        //     // console.log('vm.messages.messages : ' + JSON.stringify(vm.messages.messages));
+        //     vm.messages.messages = updatedMessages;
+        //     db.put(vm.messages).catch(function (err) {
+        //         console.log("err: " + err);
+        //     });
+        // }
 
         return vm;
     });

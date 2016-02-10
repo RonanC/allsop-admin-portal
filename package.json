@@ -2,6 +2,7 @@
   "name": "allsop-admin",
   "private": true,
   "devDependencies": {
+    "add-cors-to-couchdb": "0.0.4",
     "autoprefixer-core": "^5.2.1",
     "grunt": "^0.4.5",
     "grunt-angular-templates": "^0.5.7",
@@ -44,6 +45,7 @@
   },
   "dependencies": {
     "body-parser": "^1.14.2",
+    "dateformat": "^1.0.12",
     "express": "^4.13.4",
     "pouchdb": "^5.2.1"
   }
