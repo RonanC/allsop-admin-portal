@@ -152,6 +152,7 @@ app.post('/addUser', function (req, res) {
     // console.log("req.query: " + JSON.stringify(req.query));
     
     var newUser = {};
+    newUser._id = req.query._id;
     newUser.user_id = req.query.user_id;
     newUser.deviceToken = req.query.deviceToken;
     newUser.deviceType = req.query.deviceType;
