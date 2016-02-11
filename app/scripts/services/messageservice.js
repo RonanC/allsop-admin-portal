@@ -58,15 +58,10 @@ angular.module('allsop')
 
                 doc.rows.forEach(function (element) {
                     // console.log("element: " + JSON.stringify(element));
-                    // vm.messages = element.doc;
                     vm.messages.push(element.doc);
-                    // console.log("vm.messages: " + JSON.stringify(vm.messages.messages));
-                    
-                    // console.log("vm.messages: " + JSON.stringify(vm.messages));
                 }, this);
             }).then(function (res) {
-                // console.log("res: " + JSON.stringify(res));
-                // console.log("after vm.messages: " + JSON.stringify(vm.messages));
+                
             }).catch(function (err) {
                 console.log("err: " + err);
             });
@@ -75,19 +70,7 @@ angular.module('allsop')
         }
 
         function saveMessage(message) {
-            // console.log('vm.messages: ' + JSON.stringify(vm.messages.messages));
-            // vm.messages.push(message);
-            
-            console.log("message: " + JSON.stringify(message));
-            // console.log("vm.messages [object]: " + vm.messages);
-            // console.log("vm.messages: " + JSON.stringify(vm.messages));
-
-            // var tempDate = new Date().toISOString();
-            // console.log('tempDate: ' + tempDate);
-            // message.timeStamp = $filter('date')(tempDate, "EEE MMM dd yyyy hh:MM"); //dateFormatted; //new Date().toISOString().slice(0, 16);
-            // console.log("message.timeStamp: " + JSON.stringify(message.timeStamp));
-
-            // message.timeStamp = "test";
+            // console.log("message: " + JSON.stringify(message));
 
             db.put(message).then(function (resp) {
                 // db.replicate.to(remote, opts);
@@ -101,18 +84,6 @@ angular.module('allsop')
             $timeout(function () { $rootScope.$apply(); });
             return vm.messages;
         }
-
-        // function updateMessages(updatedMessages) {
-        //     // console.log('updatedMessages: ' + JSON.stringify(updatedMessages));
-        //     // console.log('vm.messages.messages : ' + JSON.stringify(vm.messages.messages));
-        //     vm.messages = updatedMessages;
-        //     db.put(vm.messages).catch(function (err) {
-        //         console.log("err: " + err);
-        //     });
-        // }
-        
-        
-        
 
         return vm;
 

@@ -3,7 +3,7 @@
 <div class="container">
     <!--http://getbootstrap.com/css/#forms-->
     <p id="primary-message" class="bg-primary">There are currently {{notify.userCount}} registered devices.</p>
-    
+
     <p id="success-message" ng-show="notify.notifySuccess" class="bg-success">Push sent!</p>
     <p id="error-message" ng-show="notify.notifyError" class="bg-danger">Push error!</p>
     <p id="warning-message" ng-show="notify.notifyWarning" class="bg-warning">Push sending...</p>
@@ -24,15 +24,16 @@
         <tr>
             <th>Time Sent</th>
             <th>Message</th>
-            <th>Result</th>
+            <th>Status</th>
             <!--<th>Message ID</th>-->
         </tr>
 
         <tr ng-repeat="message in notify.messages track by message.message_id">
-             <!--| orderBy : '-timeStamp' track by message.message_id">-->
+            <!--| orderBy : '-timeStamp' track by message.message_id">-->
             <!--track by message.message_id |-->
             <!--// track by notify.message_id  | orderBy : '-timeStamp'"-->
-            <td>{{ message.timeStamp | date : 'EEE MMM dd yyyy hh:MM' }}</td>
+            <td>{{ message.timeStamp | date : 'medium' }}</td>
+            <!--EEE MMM dd yyyy hh:MM-->
             <td>{{ message.message }}</td>
             <td>{{ message.result }}</td>
             <!--<td>{{ message.message_id }}</td>-->

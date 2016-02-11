@@ -18,24 +18,24 @@ angular.module('allsop')
 
         vm.sendPush = sendPush;
 
-        vm.messages = messageService.getMessages();
+        vm.messages = messageService.messages;
 
 
 
         $timeout(function () {
-            vm.messages = messageService.getMessages();
+            vm.messages = messageService.messages;
             vm.userCount = notifyService.deviceTokens.length;
             // console.log(notifyService.deviceTokens);
         }, 250);
 
         $timeout(function () {
-            vm.messages = messageService.getMessages();
+            vm.messages = messageService.messages;
             vm.userCount = notifyService.deviceTokens.length;
             // console.log(notifyService.deviceTokens);
         }, 500);
 
         $timeout(function () {
-            vm.messages = messageService.getMessages();
+            vm.messages = messageService.messages;
             vm.userCount = notifyService.deviceTokens.length;
             // console.log(notifyService.deviceTokens);
         }, 1000);
@@ -53,7 +53,7 @@ angular.module('allsop')
             vm.userCount = notifyService.deviceTokens.length;
             // console.log(notifyService.deviceTokens);
             
-            vm.messages = messageService.getMessages();
+            vm.messages = messageService.messages;
             $timeout(function () { $rootScope.$apply(); });
         }, 10000);
 
@@ -172,10 +172,12 @@ angular.module('allsop')
 
                 vm.notifyWarning = false;
                 vm.notifySuccess = true;
+
+                vm.messages = messageService.messages;
                 $timeout(function () {
                     vm.notifySuccess = false;
-                    vm.messages = messageService.getMessages();
-                }, 4000);
+                    vm.messages = messageService.messages;
+                }, 3000);
             }).error(function (error) {
                 // Handle error 
                 console.log("Ionic Push: Push error...");
@@ -187,13 +189,13 @@ angular.module('allsop')
                 }, 4000);
             });
         }
-        
-        function getTimestamp(){
+
+        function getTimestamp() {
             var date = new Date();
             console.log('date: ' + date);
             var timeStamp = $filter('date')(date, "EEE MMM dd yyyy hh:MM");
             console.log('timeStamp: ' + timeStamp);
-            
+
             return timeStamp;
         }
 
