@@ -23,9 +23,11 @@ Next in the couch change the remote pouch databases to your own.
 Now when you run the server and open the various tabs, the local databases will sync with your own remote databases.  
   
 **Databases:**  
-- allsop-app  
-- allsop-backend  
 - allsop-auctions  
+- allsop-details  
+- allsop-messages  
+- allsop-users  
+
   
 These databases are located in the angular services.  
 

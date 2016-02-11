@@ -138,7 +138,7 @@ angular.module('allsop')
                 }
             };
 
-            console.log('req: ' + JSON.stringify(req));
+            // console.log('req: ' + JSON.stringify(req));
 
             // Make the API call
             $http(req).success(function (resp) {

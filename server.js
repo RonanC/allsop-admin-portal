@@ -102,7 +102,7 @@ function saveUser(newUser) {
     console.log("attempting to add user to db");
 
     db.put(newUser).then(function (resp) {
-        console.log('resp: ' + resp);
+        console.log('resp: ' + JSON.stringify(resp));
     }).catch(function (err) {
         console.log('err: ' + err);
     });
