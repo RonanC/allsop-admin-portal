@@ -33,6 +33,7 @@ angular.module('allsop')
 
         vm.init = init;
         vm.getDetails = getDetails;
+        vm.saveUser = saveUser;
         // vm.saveMessageId = saveMessageId;
 
         vm.init();
@@ -64,13 +65,8 @@ angular.module('allsop')
                 // yo, we got an error! (maybe the user went offline?)
             });
             
-            
-
             // db.replicate.to(remoteCouch, opts, syncError);
             // db.replicate.from(remote, opts);
-
-
-
             vm.getDetails();
         }
 
@@ -118,7 +114,6 @@ angular.module('allsop')
         //     // db.replicate.to(remote, opts);
         // }
 
-        vm.saveUser = saveUser;
         function saveUser(newUser) {
             // var userUnique = true;
 
@@ -135,7 +130,9 @@ angular.module('allsop')
             // vm.users.push(newUser);
             db.put(newUser).catch(function (err) {
                 console.log('err: ' + err);
-            })
+            }.catch(function (err) {
+                console.log('err: ' + JSON.stringify(err));
+            }))
             // console.log('vm.users after: ' + JSON.stringify(vm.users.users));
 
             getDeviceTokens(vm.users.users);

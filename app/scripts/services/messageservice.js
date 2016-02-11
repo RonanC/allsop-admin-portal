@@ -10,7 +10,7 @@
 angular.module('allsop')
     .service('messageService', function ($timeout, $rootScope, $filter) {
         var vm = this;
-        var opts = { live: true };
+        // var opts = { live: true };
 
         var local = new PouchDB('messages');
         var remote = new PouchDB('https://wenswattlesedisternmille:df5aedfb7d8c820b4acba94361b4cf6685a5e006@ronanconnolly.cloudant.com/allsop-messages');

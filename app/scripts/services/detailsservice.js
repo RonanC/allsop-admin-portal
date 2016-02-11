@@ -22,8 +22,8 @@ angular.module('allsop')
 
         vm.user = {};
         vm.init = init;
-        vm.getUser = getUser;
-        vm.saveUser = saveUser;
+        vm.getUsers = getUsers;
+        // vm.saveUser = saveUser;
 
         vm.init();
 
@@ -32,7 +32,7 @@ angular.module('allsop')
                 since: 'now',
                 live: true
             }).on('change', function () {
-                vm.getUser();
+                vm.getUsers();
             });
 
             // local.sync(remote, {
@@ -43,12 +43,14 @@ angular.module('allsop')
             //     // yo, we got an error! (maybe the user went offline?)
             // });
             
-            local.replicate.from(remote);
+            local.replicate.from(remote, {
+                live: true
+            });
 
-            vm.getUser();
+            vm.getUsers();
         }
 
-        function getUser() {
+        function getUsers() {
             db.allDocs({ include_docs: true, descending: true }, function (err, doc) {
                 //console.log('DB Change');
                 // console.log('doc: ' + JSON.stringify(doc));
@@ -79,10 +81,10 @@ angular.module('allsop')
             $timeout(function () { $rootScope.$apply(); });
         }
 
-        function saveUser() {
-            // console.log("saving user: " + JSON.stringify(vm.user));
-            // db.put(vm.user);
-        }
+        // function saveUser() {
+        //     // console.log("saving user: " + JSON.stringify(vm.user));
+        //     // db.put(vm.user);
+        // }
 
         return vm;
     });
