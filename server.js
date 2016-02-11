@@ -160,8 +160,6 @@ app.post('/addUser', function (req, res) {
 
     console.log("new user: " + JSON.stringify(newUser));
 
-
-
     var statusCode = vm.saveUser(newUser);
     var message = "attempting to add user to db";
     console.log("attempting to add user to db");
