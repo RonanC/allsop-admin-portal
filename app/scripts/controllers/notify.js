@@ -157,11 +157,11 @@ angular.module('allsop')
                 
                 // var dateFormatted = dateFormat(date, "dddd, mmmm dS, yyyy, h:MM:ss TT");
                 
-                resp.timeStamp = Date.now();
+                resp.timeStamp = Date.now(); //getTimestamp(); //Date.now();
                 //$filter('date')(new Date(), "EEE MMM dd yyyy hh:MM"); //dateFormatted; //new Date().toISOString().slice(0, 16);
                 
-                resp._id = Date.now(); //dateToNum(new Date());
-                console.log('resp._id: ' + JSON.stringify(resp._id));
+                resp._id = Date.now().toString(); //dateToNum(new Date());
+                // console.log('resp._id: ' + JSON.stringify(resp._id));
                 // resp._rev = '3-d00e377018a5fd6888a0664311b1ab0a'; // need to have a _rev (cloudant bug)
                            
                 // save to db
@@ -186,6 +186,15 @@ angular.module('allsop')
                     vm.notifyError = false;
                 }, 4000);
             });
+        }
+        
+        function getTimestamp(){
+            var date = new Date();
+            console.log('date: ' + date);
+            var timeStamp = $filter('date')(date, "EEE MMM dd yyyy hh:MM");
+            console.log('timeStamp: ' + timeStamp);
+            
+            return timeStamp;
         }
 
         // private

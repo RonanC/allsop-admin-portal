@@ -32,7 +32,7 @@
              <!--| orderBy : '-timeStamp' track by message.message_id">-->
             <!--track by message.message_id |-->
             <!--// track by notify.message_id  | orderBy : '-timeStamp'"-->
-            <td>{{ message.timeStamp }}</td>
+            <td>{{ message.timeStamp | date : 'EEE MMM dd yyyy hh:MM' }}</td>
             <td>{{ message.message }}</td>
             <td>{{ message.result }}</td>
             <!--<td>{{ message.message_id }}</td>-->
