@@ -2,22 +2,24 @@
 
 /**
  * @ngdoc service
- * @name allsop.loginService
+ * @name allsop.detailsService
  * @description
- * # loginService
+ * # detailsService
  * Service in the allsop.
  */
 angular.module('allsop')
-    .service('loginService', function ($timeout, $rootScope) {
+    .service('detailsService', function ($timeout, $rootScope) {
         var vm = this;
 
-        var local = new PouchDB('logindetails');
-        var remote = new PouchDB('https://malledingetteralleadstak:2647335840445ee4357ab6bbb0fdb31aa9ae9961@ronanconnolly.cloudant.com/allsop-backend');
+        var local = new PouchDB('details');
+        var remote = new PouchDB('https://shermentmentsaliencenear:ff24d6530cbe397679b76e6c3a94844a33688cf6@ronanconnolly.cloudant.com/allsop-details');
         var db = local;
 
         // defaults
         // vm.user = { username: 'allsop', password: 'poslla' };
         
+        vm.appDetails = {};
+
         vm.user = {};
         vm.init = init;
         vm.getUser = getUser;
@@ -52,22 +54,26 @@ angular.module('allsop')
                 // console.log('doc: ' + JSON.stringify(doc));
 
                 doc.rows.forEach(function (element) {
-                    if (element.id === 'loginDetails') {
+                    if (element.id === 'appDetails') {
+                        // console.log("element: " + JSON.stringify(element.id));
+                        vm.appDetails = element.doc;
+                        // console.log("vm.appDetails: " + JSON.stringify(vm.appDetails));
+                    } else if (element.id === 'loginDetails') {
                         // console.log("element: " + JSON.stringify(element));
 
                         if (doc.total_rows < 1) {
-                            vm.user.username = "allsop"
-                            vm.user.password = "poslla"
+                            vm.user.username = 'allsop';
+                            vm.user.password = 'poslla';
                             // vm.saveUser();
                         } else {
                             vm.user.username = element.doc.username;//doc.rows[0].doc.username;
                             vm.user.password = element.doc.password;//doc.rows[0].doc.password;
-                            // console.log("vm.user: " + JSON.stringify(vm.user));
+                            // console.log('vm.user: ' + JSON.stringify(vm.user));
                         }
                     }
                 }, this);
             }).catch(function (err) {
-                console.log("err: " + err);
+                console.log('err: ' + err);
             });
 
             $timeout(function () { $rootScope.$apply(); });

@@ -8,11 +8,11 @@
  * Controller of the allsop
  */
 angular.module('allsop')
-    .controller('LoginCtrl', function ($timeout, $rootScope, auth, loginService, $location) {
+    .controller('LoginCtrl', function ($timeout, $rootScope, auth, detailsService, $location) {
         var vm = this;
         vm.loginAttempt = login;
         vm.loginError = false;
-        vm.user = loginService.user;
+        vm.user = detailsService.user;
         //  $rootScope.isLoggedOut = true;
         $rootScope.isLoggedOut = !auth.isLoggedIn();
         // vm.errorMsg = "error message";
@@ -23,14 +23,14 @@ angular.module('allsop')
         }
 
         function login(user) {
-            vm.user = loginService.user;
+            vm.user = detailsService.user;
             if (vm.user.username == user.username && vm.user.password == user.password) {
                 $rootScope.isLoggedOut = false;
                 auth.setUser(true);
-                console.log("Login Successful!");
+                console.log('Login Successful!');
                 $location.path('/home');
             } else {
-                console.log("Login Failed!");
+                console.log('Login Failed!');
                 vm.loginError = true;
 
                 $timeout(function () {

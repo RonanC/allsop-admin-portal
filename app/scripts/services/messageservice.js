@@ -12,7 +12,7 @@ angular.module('allsop')
         var vm = this;
         var opts = { live: true };
 
-        var local = new PouchDB('allsop-messages');
+        var local = new PouchDB('messages');
         var remote = new PouchDB('https://wenswattlesedisternmille:df5aedfb7d8c820b4acba94361b4cf6685a5e006@ronanconnolly.cloudant.com/allsop-messages');
         var db = local;
 
@@ -63,19 +63,19 @@ angular.module('allsop')
             }).then(function (res) {
                 
             }).catch(function (err) {
-                console.log("err: " + err);
+                console.log('err: ' + err);
             });
 
             $timeout(function () { $rootScope.$apply(); });
         }
 
         function saveMessage(message) {
-            // console.log("message: " + JSON.stringify(message));
+            // console.log('message: ' + JSON.stringify(message));
 
             db.put(message).then(function (resp) {
                 // db.replicate.to(remote, opts);
             }).catch(function (err) {
-                console.log("err: " + err);
+                console.log('err: ' + err);
             });
             // db.replicate.to(remote, opts);
         }

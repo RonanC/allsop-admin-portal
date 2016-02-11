@@ -8,7 +8,7 @@
  * Controller of the allsop
  */
 angular.module('allsop')
-    .controller('NotifyCtrl', function ($http, notifyService, $timeout, $interval, messageService, $filter, $rootScope) {
+    .controller('NotifyCtrl', function ($http, userService, $timeout, $interval, messageService, $filter, $rootScope, detailsService) {
         // http://docs.ionic.io/docs/push-api-examples
         var vm = this;
 
@@ -24,20 +24,20 @@ angular.module('allsop')
 
         $timeout(function () {
             vm.messages = messageService.messages;
-            vm.userCount = notifyService.deviceTokens.length;
-            // console.log(notifyService.deviceTokens);
+            vm.userCount = userService.deviceTokens.length;
+            // console.log(userService.deviceTokens);
         }, 250);
 
         $timeout(function () {
             vm.messages = messageService.messages;
-            vm.userCount = notifyService.deviceTokens.length;
-            // console.log(notifyService.deviceTokens);
+            vm.userCount = userService.deviceTokens.length;
+            // console.log(userService.deviceTokens);
         }, 500);
 
         $timeout(function () {
             vm.messages = messageService.messages;
-            vm.userCount = notifyService.deviceTokens.length;
-            // console.log(notifyService.deviceTokens);
+            vm.userCount = userService.deviceTokens.length;
+            // console.log(userService.deviceTokens);
         }, 1000);
 
         $timeout(function () {
@@ -48,10 +48,10 @@ angular.module('allsop')
         // this is not efficient, it is only needed the first time you visit the page
         var refreshInterval;
         refreshInterval = $interval(function () {
-            // console.log("interval...");
+            // console.log('interval...');
             refreshMsgStatus();
-            vm.userCount = notifyService.deviceTokens.length;
-            // console.log(notifyService.deviceTokens);
+            vm.userCount = userService.deviceTokens.length;
+            // console.log(userService.deviceTokens);
             
             vm.messages = messageService.messages;
             $timeout(function () { $rootScope.$apply(); });
@@ -65,7 +65,7 @@ angular.module('allsop')
         // userRonan.timeStamp = new Date().toISOString().slice(0, 16);
         // $timeout(function () {
         //     console.log('adding user...');
-        //     notifyService.saveUser(userRonan);
+        //     userService.saveUser(userRonan);
         // }, 5000);
 
         function refreshMsgStatus() {
@@ -81,7 +81,7 @@ angular.module('allsop')
                 vm.messages.forEach(function (message) {
 
                     if (message.result == 'queued') {
-                        // console.log("message: " + JSON.stringify(message));
+                        // console.log('message: ' + JSON.stringify(message));
                         checkStatus(message, index);
                     }
 
@@ -94,8 +94,8 @@ angular.module('allsop')
                 }, this);
 
                 // def.promise.then(function () {
-                //     // console.log("ready");
-                //     notifyService.updateMessages(vm.messages);
+                //     // console.log('ready');
+                //     userService.updateMessages(vm.messages);
                 // });
 
                 $timeout(function () {
@@ -106,7 +106,7 @@ angular.module('allsop')
         }
 
 
-        // vm.debugLog = notifyService.debugLog;
+        // vm.debugLog = userService.debugLog;
 
         function sendPush(message) {
             vm.notifyWarning = true;
@@ -114,9 +114,9 @@ angular.module('allsop')
             // console.log('message text: ' + JSON.stringify(message));
             
             // Define relevant info
-            var privateKey = notifyService.appDetails.privateKey;
-            var tokens = notifyService.deviceTokens;
-            var appId = notifyService.appDetails.appId;
+            var privateKey = detailsService.appDetails.privateKey;
+            var tokens = userService.deviceTokens;
+            var appId = detailsService.appDetails.appId;
 
             // Encode your key
             var auth = btoa(privateKey + ':');
@@ -131,19 +131,19 @@ angular.module('allsop')
                     'Authorization': 'basic ' + auth
                 },
                 data: {
-                    "tokens": tokens,
-                    "notification": {
-                        "alert": message.message
+                    'tokens': tokens,
+                    'notification': {
+                        'alert': message.message
                     }
                 }
             };
 
-            // console.log("req: " + JSON.stringify(req));
+            console.log('req: ' + JSON.stringify(req));
 
             // Make the API call
             $http(req).success(function (resp) {
                 // Handle success
-                //console.log("Ionic Push: Push success!");
+                //console.log('Ionic Push: Push success!');
 
                 // console.log('resp: ' + JSON.stringify(resp));
                 // console.log('req: ' + JSON.stringify(req));
@@ -152,13 +152,13 @@ angular.module('allsop')
                 resp.tokens = req.data.tokens;
 
                 // var date = new Date();
-                // var dateFormatted = $filter('date')(date, "EEE MMM dd yyyy hh:MM"); // for conversion to string
+                // var dateFormatted = $filter('date')(date, 'EEE MMM dd yyyy hh:MM'); // for conversion to string
                 // console.log('dateFormatted: ' + dateFormatted);
                 
-                // var dateFormatted = dateFormat(date, "dddd, mmmm dS, yyyy, h:MM:ss TT");
+                // var dateFormatted = dateFormat(date, 'dddd, mmmm dS, yyyy, h:MM:ss TT');
                 
                 resp.timeStamp = Date.now(); //getTimestamp(); //Date.now();
-                //$filter('date')(new Date(), "EEE MMM dd yyyy hh:MM"); //dateFormatted; //new Date().toISOString().slice(0, 16);
+                //$filter('date')(new Date(), 'EEE MMM dd yyyy hh:MM'); //dateFormatted; //new Date().toISOString().slice(0, 16);
                 
                 resp._id = Date.now().toString(); //dateToNum(new Date());
                 // console.log('resp._id: ' + JSON.stringify(resp._id));
@@ -168,7 +168,7 @@ angular.module('allsop')
                 messageService.saveMessage(resp);
 
                 vm.messages = messageService.getMessages();
-                //console.log("resp: " + JSON.stringify(resp));
+                //console.log('resp: ' + JSON.stringify(resp));
 
                 vm.notifyWarning = false;
                 vm.notifySuccess = true;
@@ -180,20 +180,21 @@ angular.module('allsop')
                 }, 3000);
             }).error(function (error) {
                 // Handle error 
-                console.log("Ionic Push: Push error...");
+                console.log('error: ' + JSON.stringify(error));
+                console.log('Ionic Push: Push error...');
 
                 vm.notifyWarning = false;
                 vm.notifyError = true;
                 $timeout(function () {
                     vm.notifyError = false;
-                }, 4000);
+                }, 3000);
             });
         }
 
         function getTimestamp() {
             var date = new Date();
             console.log('date: ' + date);
-            var timeStamp = $filter('date')(date, "EEE MMM dd yyyy hh:MM");
+            var timeStamp = $filter('date')(date, 'EEE MMM dd yyyy hh:MM');
             console.log('timeStamp: ' + timeStamp);
 
             return timeStamp;
@@ -217,16 +218,16 @@ angular.module('allsop')
             var asDate = new Date(parseInt(date));
             var parsedDate = asDate.toString().slice(0, 21);
 
-            // console.log("time stamp: " + timestr);
-            // console.log("human readable: " + parsedDate);
+            // console.log('time stamp: ' + timestr);
+            // console.log('human readable: ' + parsedDate);
 
             return parsedDate;
         }
 
         function checkStatus(message, index) {
-            var privateKey = notifyService.appDetails.privateKey;
-            var appId = notifyService.appDetails.appId;
-            var statusId = message.message_id; //'your-message-status-code'
+            var privateKey = detailsService.appDetails.privateKey;
+            var appId = detailsService.appDetails.appId;
+            var statusId = message.message_id;
 
             // Encode your key
             var auth = btoa(privateKey + ':');
@@ -245,9 +246,9 @@ angular.module('allsop')
             // Make the API call
             $http(req).success(function (resp) {
                 // Handle success
-                // console.log("Ionic Push: Push success!");
-                // console.log("req: " + JSON.stringify(req));
-                // console.log("resp: " + JSON.stringify(resp.status));
+                // console.log('Ionic Push: Push success!');
+                // console.log('req: ' + JSON.stringify(req));
+                // console.log('resp: ' + JSON.stringify(resp.status));
                 // newStatus = resp.status;÷
                 // return resp.status;
                 vm.messages[index].result = resp.status;
@@ -258,8 +259,8 @@ angular.module('allsop')
                 // console.log(vm.messages[index]);
             }).error(function (error) {
                 // Handle error 
-                console.log("Ionic Push: Push error...");
-                console.log("error: " + JSON.stringify(error));
+                console.log('Ionic Push: Push error...');
+                console.log('error: ' + JSON.stringify(error));
                 // return 'Unknown';
             });
 

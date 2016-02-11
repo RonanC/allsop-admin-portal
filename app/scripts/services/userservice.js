@@ -2,22 +2,22 @@
 
 /**
  * @ngdoc service
- * @name allsop.notifyService
+ * @name allsop.userService
  * @description
- * # notifyService
+ * # userService
  * Service in the allsop.
  */
 angular.module('allsop')
-    .service('notifyService', function ($timeout, $rootScope) {
+    .service('userService', function ($timeout, $rootScope) {
         var vm = this;
         // var opts = { live: true };
 
-        var local = new PouchDB('allsop-app');
-        var remote = new PouchDB('https://fforecrocheseentelticken:bebcc9f90aab1ed06adbdf8ee0f8d23bce5c8300@ronanconnolly.cloudant.com/allsop-app');
+        var local = new PouchDB('users');
+        var remote = new PouchDB('https://himsediatharriblyluthfur:7cbd754879d93af5eca46bbdeb3beb0ed7297782@ronanconnolly.cloudant.com/allsop-users');
         var db = local;
 
         // appDetails
-        vm.appDetails = {};
+        // vm.appDetails = {};
         // vm.appDetails.privateKey = '2e218f3f3198512516f2a127d483ad7937111a3fd04da710';
         // vm.appDetails.appId = '00dc3d1a';
         
@@ -39,7 +39,7 @@ angular.module('allsop')
 
         // vm.debugLog = debugLog;
         // function debugLog() {
-        //     console.log("test");
+        //     console.log('test');
         //     console.log('vm.users: ' + JSON.stringify(vm.users));
         // }
 
@@ -81,26 +81,29 @@ angular.module('allsop')
                 //console.log('DB Change');
                 // console.log('doc: ' + JSON.stringify(doc.rows));
 
+                vm.users = [];
+
                 doc.rows.forEach(function (element) {
                     // console.log("element: " + JSON.stringify(element.id));
-                    if (element.id === 'appDetails') {
-                        // console.log("element: " + JSON.stringify(element.id));
-                        vm.appDetails = element.doc;
-                        // console.log("vm.appDetails: " + JSON.stringify(vm.appDetails));
-                    }
-                    else if (element.id === 'users') {
-                        vm.users = element.doc;
+                    // if (element.id === 'appDetails') {
+                    // console.log("element: " + JSON.stringify(element.id));
+                    // vm.appDetails = element.doc;
+                    // console.log("vm.appDetails: " + JSON.stringify(vm.appDetails));
+                    // }
+                    // else if (element.id === 'users') {
+                    vm.users.push(element.doc);
                         
-                        // console.log("vm.users: " + JSON.stringify(vm.users));
-                        getDeviceTokens(vm.users.users);
-                    } 
+                    // console.log("vm.users: " + JSON.stringify(vm.users));
+
+                    // } 
                     // else if (element.id === 'messages') {
                     //     vm.messages = element.doc;
                     //     // console.log("vm.messages: " + JSON.stringify(vm.messages.messages));
                     // }
                 }, this);
+                getDeviceTokens(vm.users);
             }).catch(function (err) {
-                console.log("err: " + err);
+                console.log('err: ' + err);
             });
 
             $timeout(function () { $rootScope.$apply(); });
@@ -110,48 +113,48 @@ angular.module('allsop')
         //     // console.log('vm.messages: ' + JSON.stringify(vm.messages.messages));
         //     vm.messages.messages.push(resp);
         //     db.put(vm.messages).catch(function (err) {
-        //         console.log("err: " + err);
+        //         console.log('err: ' + err);
         //     });
         //     // db.replicate.to(remote, opts);
         // }
 
         vm.saveUser = saveUser;
         function saveUser(newUser) {
-            var userUnique = true;
+            // var userUnique = true;
 
-            vm.users.users.forEach(function (user) {
-                console.log('newUser.deviceToken: ' + vm.users.users.deviceToken + '\nuser.deviceToken: ' + user.deviceToken);
-                if (newUser.deviceToken == user.deviceToken) {
-                    // console.log("user already added...");
-                    userUnique = false;
-                }
-            }, this);
+            // vm.users.forEach(function (user) {
+            //     console.log('newUser.deviceToken: ' + vm.users.users.deviceToken + '\nuser.deviceToken: ' + user.deviceToken);
+            //     if (newUser.deviceToken == user.deviceToken) {
+            //         // console.log('user already added...');
+            //         userUnique = false;
+            //     }
+            // }, this);
 
-            if (userUnique) {
-                // console.log('vm.users before: ' + JSON.stringify(vm.users.users));
-                vm.users.users.push(newUser);
-                db.put(vm.users).catch(function (err) {
-                    console.log("err: " + err);
-                });
-                // console.log('vm.users after: ' + JSON.stringify(vm.users.users));
+            // if (userUnique) {
+            // console.log('vm.users before: ' + JSON.stringify(vm.users.users));
+            // vm.users.push(newUser);
+            db.put(newUser).catch(function (err) {
+                console.log('err: ' + err);
+            })
+            // console.log('vm.users after: ' + JSON.stringify(vm.users.users));
 
-                getDeviceTokens(vm.users.users);
-            }
-            else {
-                // console.log("user with device token '" + user.deviceToken + "' already exists, aborting save...");
-            }
+            getDeviceTokens(vm.users.users);
+            // }
+            // else {
+            // console.log('user with device token '' + user.deviceToken + ' already exists, aborting save...');
+            // }
 
         }
 
         function getDeviceTokens(users) {
-            // console.log("users : " + JSON.stringify(users));
+            // console.log('users : ' + JSON.stringify(users));
             vm.deviceTokens = [];
             if (users != undefined && users.length > 0) {
                 users.forEach(function (user) {
                     vm.deviceTokens.push(user.deviceToken);
                 }, this);
 
-                // console.log("vm.deviceTokens: " + vm.deviceTokens);
+                // console.log('vm.deviceTokens: ' + vm.deviceTokens);
             }
         }
 
@@ -166,7 +169,7 @@ angular.module('allsop')
         //     // console.log('vm.messages.messages : ' + JSON.stringify(vm.messages.messages));
         //     vm.messages.messages = updatedMessages;
         //     db.put(vm.messages).catch(function (err) {
-        //         console.log("err: " + err);
+        //         console.log('err: ' + err);
         //     });
         // }
 

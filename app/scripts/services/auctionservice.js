@@ -54,7 +54,7 @@ angular.module('allsop')
                 // console.log('doc: ' + JSON.stringify(doc.rows));
                 addListEntry(doc.rows);
             }).catch(function (err) {
-                console.log("err: " + err);
+                console.log('err: ' + err);
             });
 
             $timeout(function () { $rootScope.$apply(); });
@@ -93,8 +93,8 @@ angular.module('allsop')
             var asDate = new Date(parseInt(timestr));
             var parsedDate = asDate.toString().slice(0, 21);
 
-            // console.log("time stamp: " + timestr);
-            // console.log("human readable: " + parsedDate);
+            // console.log('time stamp: ' + timestr);
+            // console.log('human readable: ' + parsedDate);
 
             return parsedDate;
         }

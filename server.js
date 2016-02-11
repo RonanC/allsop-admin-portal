@@ -12,12 +12,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // POUCHDB
 // var local = new PouchDB('allsop-app');
-var remote = new PouchDB('https://fforecrocheseentelticken:bebcc9f90aab1ed06adbdf8ee0f8d23bce5c8300@ronanconnolly.cloudant.com/allsop-app');
+var remote = new PouchDB('https://himsediatharriblyluthfur:7cbd754879d93af5eca46bbdeb3beb0ed7297782@ronanconnolly.cloudant.com/allsop-users');
 var db = remote;
 
 // data
 var vm = this;
-vm.users = { 'users': [] };
+vm.users = [];
+
 vm.initDb = initDb;
 vm.getDetails = getDetails;
 vm.saveUser = saveUser;
@@ -55,13 +56,17 @@ function getDetails() {
         // console.log('DB Change');
         // console.log('doc: ' + JSON.stringify(doc));
 
+        vm.users = [];
+
         doc.rows.forEach(function (element) {
             // console.log("element: " + JSON.stringify(element.id));
-            if (element.id === 'users') {
-                vm.users = element.doc;
-                // console.log("vm.users: " + JSON.stringify(vm.users));
-            }
+            // if (element.id === 'users') {
+            vm.users.push(element.doc);
+            // console.log("vm.users: " + JSON.stringify(vm.users));
+            // }
         }, this);
+    }).catch(function (err) {
+        console.log('err: ' + err);
     });
 }
 
@@ -75,34 +80,40 @@ function saveUser(newUser) {
     // console.log('saving user...');
 
 
-    var userUnique = true;
+    // var userUnique = true;
     // console.log("vm.users.users: " + JSON.stringify(vm.users.users));
 
-    if (vm.users.users.length > 0) { // or undefined?
-        vm.users.users.forEach(function (user) {
-            // console.log('newUser.deviceToken: ' + newUser.deviceToken + '\nuser.deviceToken: ' + user.deviceToken);
-            if (user.deviceToken == newUser.deviceToken) {
-                // console.log("user already added...");
-                userUnique = false;
-            } else if (newUser.deviceToken == null || newUser.deviceToken == undefined || newUser.deviceToken == '') {
-                userUnique = false;
-            }
-        }, this);
-    }
+    // if (vm.users.users.length > 0) { // or undefined?
+    //     vm.users.users.forEach(function (user) {
+    //         // console.log('newUser.deviceToken: ' + newUser.deviceToken + '\nuser.deviceToken: ' + user.deviceToken);
+    //         if (user.deviceToken == newUser.deviceToken) {
+    //             // console.log("user already added...");
+    //             userUnique = false;
+    //         } else if (newUser.deviceToken == null || newUser.deviceToken == undefined || newUser.deviceToken == '') {
+    //             userUnique = false;
+    //         }
+    //     }, this);
+    // }
 
-    if (userUnique) {
-        // console.log('vm.users before: ' + JSON.stringify(vm.users.users));
-        vm.users.users.push(newUser);
-        db.put(vm.users);
-        // console.log('vm.users (after): ' + JSON.stringify(vm.users.users));
+    // if (userUnique) {
+    // console.log('vm.users before: ' + JSON.stringify(vm.users.users));
+    // vm.users.users.push(newUser);
+    
+    console.log("attempting to add user to db");
+
+    db.put(newUser).then(function (resp) {
+        console.log('resp: ' + resp);
+    }).catch(function (err) {
+        console.log('err: ' + err);
+    });
+    // console.log('vm.users (after): ' + JSON.stringify(vm.users.users));
         
-        return 201;
-        console.log("user added");
-    }
-    else {
-        return 202;
-        console.log("user not unique");
-    }
+    return 201;
+    // }
+    // else {
+    // return 202;
+    // console.log("user not unique");
+    // }
 }
 
 // ROUTES
@@ -149,15 +160,20 @@ app.post('/addUser', function (req, res) {
 
     console.log("new user: " + JSON.stringify(newUser));
 
+
+
     var statusCode = vm.saveUser(newUser);
-    var message = "unknown";
-    if (statusCode == 201) {
-        message = "user added\n";
-        console.log("user added\n");
-    } else if (statusCode == 202) {
-        message = "user already in database\n";
-        console.log("user already in database\n");
-    }
+    var message = "attempting to add user to db";
+    console.log("attempting to add user to db");
+    // if (statusCode == 201) {
+    // message = "user added\n";
+    // console.log("user added\n");
+    // } else if (statusCode == 202) {
+    // message = "user already in database\n";
+    // console.log("user already in data/base\n");
+    // }
+    
+    
     
     // sync pouch
     res.status(statusCode).send(message);
