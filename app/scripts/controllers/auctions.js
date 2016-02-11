@@ -12,7 +12,7 @@
     angular.module('allsop')
         .controller('AuctionsCtrl', AuctionsCtrl);
 
-    function AuctionsCtrl($q, $scope, auctionService) {
+    function AuctionsCtrl($q, $scope, auctionService, $timeout, $interval, $rootScope) {
         // vm for viewmodel
         var vm = this;
 
@@ -27,6 +27,31 @@
         // call functions
         auctionService.getEntries()
         vm.refreshList();
+        
+        
+        
+        // timeouts
+        $timeout(function () {
+            vm.refreshList();
+        }, 250);
+
+        $timeout(function () {
+            vm.refreshList();
+        }, 500);
+
+        $timeout(function () {
+            vm.refreshList();
+        }, 1000);
+
+        // this gets called every 5 seconds
+        // this is not efficient, it is only needed the first time you visit the page
+        var refreshInterval;
+        refreshInterval = $interval(function () {
+            vm.refreshList();
+            $timeout(function () { $rootScope.$apply(); });
+        }, 10000);
+        
+        
         
         // this gets called every 5 seconds
         // this is not efficient, it is only needed the first time you visit the page

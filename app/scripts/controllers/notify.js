@@ -19,23 +19,23 @@ angular.module('allsop')
         vm.sendPush = sendPush;
 
         vm.messages = messageService.messages;
-
+        vm.refreshMessages = refreshMessages;
 
 
         $timeout(function () {
-            vm.messages = messageService.messages;
+            vm.refreshMessages();
             vm.userCount = userService.deviceTokens.length;
             // console.log(userService.deviceTokens);
         }, 250);
 
         $timeout(function () {
-            vm.messages = messageService.messages;
+            vm.refreshMessages();
             vm.userCount = userService.deviceTokens.length;
             // console.log(userService.deviceTokens);
         }, 500);
 
         $timeout(function () {
-            vm.messages = messageService.messages;
+            vm.refreshMessages();
             vm.userCount = userService.deviceTokens.length;
             // console.log(userService.deviceTokens);
         }, 1000);
@@ -53,9 +53,15 @@ angular.module('allsop')
             vm.userCount = userService.deviceTokens.length;
             // console.log(userService.deviceTokens);
             
-            vm.messages = messageService.messages;
+            vm.refreshMessages();
             $timeout(function () { $rootScope.$apply(); });
         }, 10000);
+
+
+
+        function refreshMessages() {
+            vm.messages = messageService.messages;
+        }
 
         // add user simulation
         // // test user

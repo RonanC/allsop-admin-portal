@@ -35,15 +35,15 @@ angular.module('allsop')
                 vm.getEntries();
             });
 
-            // local.sync(remote, {
-            //     live: true
-            // }).on('change', function (change) {
-            //     // yo, something changed!
-            // }).on('error', function (err) {
-            //     // yo, we got an error! (maybe the user went offline?)
-            // });
+            local.sync(remote, {
+                live: true
+            }).on('change', function (change) {
+                // yo, something changed!
+            }).on('error', function (err) {
+                // yo, we got an error! (maybe the user went offline?)
+            });
             
-            db.replicate.from(remote, opts);
+            // db.replicate.from(remote, opts);
 
         }
 
@@ -52,7 +52,30 @@ angular.module('allsop')
             db.allDocs({ include_docs: true, descending: true }, function (err, doc) {
                 console.log('DB Change, updating list...');
                 // console.log('doc: ' + JSON.stringify(doc.rows));
-                addListEntry(doc.rows);
+                // addListEntry(doc.rows);
+                
+                vm.auctionEntries = [];
+
+                doc.rows.forEach(function (entry) {
+                    if (entry.id.charAt(0) !== '_') {
+                        // vm.auctionTitles.push(entry.doc.where);
+
+                        entry.doc.when = numToDate(entry.doc._id);
+                        vm.auctionEntries.push(entry.doc);
+                        
+                        // console.log(entry.doc);
+                        
+                        // vm.auctionObjects.push({
+                        //     _id: entry.doc._id,
+                        //     _rev: 
+                        // });
+                    }
+                });
+                
+                // console.log(vm.auctionEntries);
+                
+                $timeout(function () { $rootScope.$apply(); });
+
             }).catch(function (err) {
                 console.log('err: ' + err);
             });
@@ -63,30 +86,30 @@ angular.module('allsop')
         }
 
         // private
-        function addListEntry(entries) {
-            entries.forEach(function (entry) {
-                if (entry.id.charAt(0) !== '_') {
-                    // vm.auctionTitles.push(entry.doc.where);
+        // function addListEntry(entries) {
+        //     entries.forEach(function (entry) {
+        //         if (entry.id.charAt(0) !== '_') {
+        //             // vm.auctionTitles.push(entry.doc.where);
 
-                    entry.doc.when = numToDate(entry.doc._id);
-                    vm.auctionEntries.push(entry.doc);
+        //             entry.doc.when = numToDate(entry.doc._id);
+        //             vm.auctionEntries.push(entry.doc);
                         
-                    // vm.auctionObjects.push({
-                    //     _id: entry.doc._id,
-                    //     _rev: 
-                    // });
-                }
-            });
+        //             // vm.auctionObjects.push({
+        //             //     _id: entry.doc._id,
+        //             //     _rev: 
+        //             // });
+        //         }
+        //     });
 
-            // console.log(vm.auctionTitles);
-            // console.log(vm.auctionEntries);
+        //     // console.log(vm.auctionTitles);
+        //     // console.log(vm.auctionEntries);
                 
                 
-            // This makes sure that the template is refreshed once the list is updated.
-            // Sometimes PouchDB changes fall through the cracks otherwise.
-            // IMPORTANT
-            $timeout(function () { $rootScope.$apply(); });
-        }
+        //     // This makes sure that the template is refreshed once the list is updated.
+        //     // Sometimes PouchDB changes fall through the cracks otherwise.
+        //     // IMPORTANT
+        //     $timeout(function () { $rootScope.$apply(); });
+        // }
         
         // private
         function numToDate(timestr) {
@@ -150,7 +173,7 @@ angular.module('allsop')
         function removeEntry(entry, def) {
             // console.log("remove");
             db.remove(entry).then(function () {
-                db.replicate.to(remote, opts);
+                // db.replicate.to(remote, opts);
                 // waits for the onchange event to update the local list from the remote db
                 $timeout(function () {
                     def.resolve();
